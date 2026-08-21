@@ -1,0 +1,16 @@
+{
+  "short_name": "Time Machine",
+  "name": "AI Time Machine 3.0 — Interactive Future Simulation Engine",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#040407",
+  "theme_color": "#040407",
+  "display": "standalone",
+  "orientation": "any"
+}

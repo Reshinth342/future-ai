@@ -1,7 +1,6 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { AnimatedCounter } from '../ui/AnimatedCounter';
-import { ArrowRight, ShieldAlert, Zap, Star } from 'lucide-react';
+import { ArrowRight, ShieldAlert, Zap } from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
   const { startOnboarding } = useApp();
@@ -95,34 +94,32 @@ export const LandingPage: React.FC = () => {
         </div>
       </div>
 
-      {/* BENTO STATS BAR ROW */}
+      {/* BENTO PRODUCT CAPABILITIES ROW */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         <div className="bento-card p-6 text-center">
           <div className="text-3xl font-bold text-accent-cyan mb-1">
-            <AnimatedCounter value={84000} suffix="+" />
+            5
           </div>
-          <div className="text-[11px] text-text-muted uppercase tracking-wider">Futures Simulated</div>
+          <div className="text-[11px] text-text-muted uppercase tracking-wider">Future Paths</div>
         </div>
 
         <div className="bento-card p-6 text-center">
           <div className="text-3xl font-bold text-accent-violet mb-1">
-            <AnimatedCounter value={127} />
+            6
           </div>
-          <div className="text-[11px] text-text-muted uppercase tracking-wider">Countries</div>
+          <div className="text-[11px] text-text-muted uppercase tracking-wider">Year Horizon</div>
         </div>
 
         <div className="bento-card p-6 text-center">
           <div className="text-3xl font-bold text-accent-gold mb-1 flex items-center justify-center gap-1">
-            4.8 <Star className="w-5 h-5 fill-accent-gold text-accent-gold" />
+            30 <span className="text-xl">DAYS</span>
           </div>
-          <div className="text-[11px] text-text-muted uppercase tracking-wider">User Rating</div>
+          <div className="text-[11px] text-text-muted uppercase tracking-wider">Shift Sprint</div>
         </div>
 
         <div className="bento-card p-6 text-center flex flex-col justify-center">
-          <div className="text-xs text-text-secondary italic mb-1">
-            "Changed how I see my life"
-          </div>
-          <div className="text-[10px] text-text-muted uppercase">Verified Impact</div>
+          <div className="text-xs text-text-secondary italic mb-1">Local fallback included</div>
+          <div className="text-[10px] text-text-muted uppercase">AI access optional</div>
         </div>
       </div>
 

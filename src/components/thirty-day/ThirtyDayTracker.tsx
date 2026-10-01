@@ -34,13 +34,13 @@ export const ThirtyDayTracker: React.FC = () => {
         <div className="bento-card p-6 flex items-center justify-between">
           <div>
             <div className="text-[10px] text-accent-cyan uppercase tracking-widest flex items-center gap-1.5">
-              <Flame className="w-3.5 h-3.5 text-accent-cyan" /> 30-DAY TIMELINE SHIFT
+              <Flame className="w-3.5 h-3.5 text-accent-cyan" /> OPTIONAL 30-DAY PRACTICE
             </div>
             <h2 className="font-display text-3xl font-bold text-white mt-1">
               {completedCount} / 30 DAYS
             </h2>
             <p className="text-xs text-text-muted mt-1">
-              {progressPct}% Timeline recalibrated
+              {progressPct}% of days marked complete
             </p>
           </div>
           <div className="w-16 h-16 rounded-full border-4 border-accent-cyan/30 flex items-center justify-center font-bold text-accent-cyan text-sm shadow-glow-cyan">

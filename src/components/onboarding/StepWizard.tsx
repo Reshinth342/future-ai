@@ -52,33 +52,33 @@ export const StepWizard: React.FC = () => {
 
   const handleFinish = () => {
     const fullProfile: UserProfile = {
-      name: p.name || 'Alex',
+      name: p.name || 'You',
       age: p.age || 21,
       country: p.country || 'India',
       role: p.role || 'IT Student',
       education: p.education || 'College',
-      socialMediaHours: p.socialMediaHours || 5,
-      sleepHours: p.sleepHours || 6.5,
-      learningHours: p.learningHours || 1.5,
+      socialMediaHours: p.socialMediaHours ?? 3,
+      sleepHours: p.sleepHours ?? 7,
+      learningHours: p.learningHours ?? 1,
       exerciseFreq: p.exerciseFreq || '1-2x/week',
       monthlyIncome: p.monthlyIncome,
-      focusRating: p.focusRating || 5,
-      consistencyRating: p.consistencyRating || 4,
-      goalStatement: p.goalStatement || 'I want to get a software engineering job paying ₹15L/year by 2027.',
-      targetCareer: p.targetCareer || 'Software Engineer',
-      targetIncome: p.targetIncome || '₹15L/year',
+      focusRating: p.focusRating ?? 5,
+      consistencyRating: p.consistencyRating ?? 5,
+      goalStatement: p.goalStatement || 'I want to make steady progress on a goal that matters to me.',
+      targetCareer: p.targetCareer || 'A role that fits my interests',
+      targetIncome: p.targetIncome || '',
       targetYear: p.targetYear || '2027',
-      biggestSkill: p.biggestSkill || 'Full-Stack Development & DSA',
+      biggestSkill: p.biggestSkill || 'A skill I would like to practice',
       biggestFear: p.biggestFear,
       cityOpportunity: p.cityOpportunity,
-      digitalHabits: p.digitalHabits || ['Instagram', 'YouTube'],
-      mentalPatterns: p.mentalPatterns || ['Procrastination'],
-      positiveHabits: p.positiveHabits || ['Coding'],
+      digitalHabits: p.digitalHabits || [],
+      mentalPatterns: p.mentalPatterns || [],
+      positiveHabits: p.positiveHabits || [],
       customHabits: p.customHabits || [],
       negativeSeverity: p.negativeSeverity || {},
       startYear: p.startYear || '2026',
       horizonYears: p.horizonYears || '5 Years',
-      scaredScenario: p.scaredScenario || '📍 Slow drift — never really getting there',
+      scaredScenario: p.scaredScenario || 'Losing sight of a goal I care about',
       fiveYearReflection: p.fiveYearReflection || ''
     };
 
@@ -96,8 +96,8 @@ export const StepWizard: React.FC = () => {
             {currentStep === 2 && 'CURRENT REALITY METRICS'}
             {currentStep === 3 && 'CORE GOAL & TARGET'}
             {currentStep === 4 && 'HABITS & FRICTION'}
-            {currentStep === 5 && 'HORIZON SCOPING'}
-            {currentStep === 6 && 'FINAL COMMITMENT'}
+            {currentStep === 5 && 'A REVIEW WINDOW'}
+            {currentStep === 6 && 'ONE LAST NOTE'}
           </span>
         </div>
         <div className="w-full h-2 bg-void rounded-full overflow-hidden border border-border-subtle">
@@ -117,7 +117,7 @@ export const StepWizard: React.FC = () => {
               <span className="font-mono text-xs text-accent-cyan uppercase">Step 01</span>
               <h2 className="font-display text-3xl font-bold text-white mt-1">ENTER YOUR COORDINATES</h2>
               <p className="text-sm text-text-secondary font-body mt-1">
-                Before we can show you your future, we need to understand your present.
+                This form starts with sample values. Replace them with your own; rough estimates are fine.
               </p>
             </div>
 
@@ -197,7 +197,7 @@ export const StepWizard: React.FC = () => {
               <span className="font-mono text-xs text-accent-amber uppercase">Step 02</span>
               <h2 className="font-display text-3xl font-bold text-white mt-1">YOUR CURRENT REALITY</h2>
               <p className="text-sm text-text-secondary font-body mt-1">
-                Be honest with your numbers. The AI uses compound formulas to project your timeline.
+                Use rough weekly averages. The scenarios are planning prompts, not predictions about your career or income.
               </p>
             </div>
 
@@ -206,22 +206,22 @@ export const StepWizard: React.FC = () => {
               <div className="p-4 rounded-xl bg-void border border-border-subtle">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-medium text-white flex items-center gap-2">
-                    📱 Daily Social Media / Doom-scrolling
+                    📱 Social and entertainment screen time
                   </span>
-                  <span className="font-mono text-accent-red font-bold">{p.socialMediaHours || 5}h / day</span>
+                  <span className="font-mono text-accent-red font-bold">{p.socialMediaHours ?? 3}h / day</span>
                 </div>
                 <input
                   type="range"
                   min="0"
                   max="12"
                   step="0.5"
-                  value={p.socialMediaHours || 5}
+                  value={p.socialMediaHours ?? 3}
                   onChange={e => updateOnboardingProfile({ socialMediaHours: parseFloat(e.target.value) })}
                   className="w-full accent-accent-red cursor-pointer"
                 />
                 <div className="mt-2 font-mono text-xs text-accent-red/90 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
-                  Live calculation: {p.socialMediaHours}h/day = {socialHoursPerYear.toLocaleString()} hours/year = <strong className="underline">{socialDaysPerYear} full days</strong> staring at a screen!
+                  At this pace: about {socialHoursPerYear.toLocaleString()} hours a year, or {socialDaysPerYear} full days. A reference, not a judgment.
                 </div>
               </div>
 
@@ -231,20 +231,20 @@ export const StepWizard: React.FC = () => {
                   <span className="text-sm font-medium text-white flex items-center gap-2">
                     🧠 Daily Hours Learning / Building
                   </span>
-                  <span className="font-mono text-accent-cyan font-bold">{p.learningHours || 1.5}h / day</span>
+                  <span className="font-mono text-accent-cyan font-bold">{p.learningHours ?? 1}h / day</span>
                 </div>
                 <input
                   type="range"
                   min="0"
                   max="10"
                   step="0.5"
-                  value={p.learningHours || 1.5}
+                  value={p.learningHours ?? 1}
                   onChange={e => updateOnboardingProfile({ learningHours: parseFloat(e.target.value) })}
                   className="w-full accent-accent-cyan cursor-pointer"
                 />
                 <div className="mt-2 font-mono text-xs text-accent-cyan flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" />
-                  Compounded over 5 years: {learnHoursFiveYears.toLocaleString()} hours of deep growth.
+                  At the same daily average: about {learnHoursFiveYears.toLocaleString()} hours of practice over five years.
                 </div>
               </div>
 
@@ -254,19 +254,19 @@ export const StepWizard: React.FC = () => {
                   <span className="text-sm font-medium text-white flex items-center gap-2">
                     😴 Daily Sleep Hours
                   </span>
-                  <span className="font-mono text-accent-violet font-bold">{p.sleepHours || 6.5}h / day</span>
+                  <span className="font-mono text-accent-violet font-bold">{p.sleepHours ?? 7}h / day</span>
                 </div>
                 <input
                   type="range"
                   min="3"
                   max="12"
                   step="0.5"
-                  value={p.sleepHours || 6.5}
+                  value={p.sleepHours ?? 7}
                   onChange={e => updateOnboardingProfile({ sleepHours: parseFloat(e.target.value) })}
                   className="w-full accent-accent-violet cursor-pointer"
                 />
                 <div className="mt-2 font-mono text-xs text-text-muted">
-                  {p.sleepHours! < 7 ? '⚠️ Below optimal recovery window (7-8.5h). Cognitive speed impacted.' : '✅ Optimal brain recovery window.'}
+                  {p.sleepHours! < 7 ? 'This is below the commonly recommended range for many adults; personal needs vary.' : 'This sits within a commonly recommended range for many adults.'}
                 </div>
               </div>
 
@@ -288,23 +288,6 @@ export const StepWizard: React.FC = () => {
                 </div>
               </div>
 
-              {/* Monthly Income (Optional) */}
-              <div className="p-4 rounded-xl bg-void border border-border-subtle space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="text-sm font-medium text-white flex items-center gap-2 font-mono">
-                    💵 Current Monthly Income (Optional)
-                  </label>
-                  <span className="text-xs text-text-muted font-mono">(for scenario modeling only)</span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="e.g. ₹0 (Student) or ₹35,000/mo"
-                  value={p.monthlyIncome || ''}
-                  onChange={e => updateOnboardingProfile({ monthlyIncome: e.target.value })}
-                  className="w-full bg-surface border border-border-subtle rounded-xl p-3 text-xs text-white font-mono focus:border-accent-gold focus:outline-none"
-                />
-              </div>
-
               {/* Focus Rating Card */}
               <div className="p-5 rounded-2xl bg-void border border-border-subtle space-y-3">
                 <div className="flex justify-between items-center">
@@ -312,7 +295,7 @@ export const StepWizard: React.FC = () => {
                     🎯 How would you rate your current focus?
                   </label>
                   <span className="font-mono text-accent-blue text-base font-bold">
-                    {p.focusRating || 5} <span className="text-xs text-text-muted">/ 10</span>
+                    {p.focusRating ?? 5} <span className="text-xs text-text-muted">/ 10</span>
                   </span>
                 </div>
                 
@@ -320,22 +303,22 @@ export const StepWizard: React.FC = () => {
                   type="range"
                   min="1"
                   max="10"
-                  value={p.focusRating || 5}
+                  value={p.focusRating ?? 5}
                   onChange={e => updateOnboardingProfile({ focusRating: parseInt(e.target.value) })}
                   className="w-full accent-accent-blue cursor-pointer"
                 />
 
                 <div className="flex justify-between text-[11px] font-mono text-text-muted">
-                  <span>1 (Highly Distracted)</span>
+                  <span>1 (Hard to focus)</span>
                   <span>5 (Moderate)</span>
-                  <span>10 (Laser Deep Focus)</span>
+                  <span>10 (Easy to focus)</span>
                 </div>
 
                 <div className="p-3 rounded-xl bg-surface border border-border-subtle text-xs font-mono">
-                  {(p.focusRating || 5) <= 3 && <span className="text-accent-red">🔴 Extreme focus fragmentation. High distraction leakage into daily routine.</span>}
-                  {(p.focusRating || 5) >= 4 && (p.focusRating || 5) <= 6 && <span className="text-accent-amber">🟡 Moderate focus ability. Vulnerable to digital dopamine notifications.</span>}
-                  {(p.focusRating || 5) >= 7 && (p.focusRating || 5) <= 8 && <span className="text-accent-cyan">🔵 Strong deep work capacity. High skill acquisition velocity unlocked.</span>}
-                  {(p.focusRating || 5) >= 9 && <span className="text-accent-green">🟢 Flow state master. Exceptional cognitive stamina and output.</span>}
+                  {(p.focusRating ?? 5) <= 3 && <span className="text-accent-red">Focus feels difficult right now. Consider what tends to interrupt it.</span>}
+                  {(p.focusRating ?? 5) >= 4 && (p.focusRating ?? 5) <= 6 && <span className="text-accent-amber">Focus varies. A small change to your environment may be worth testing.</span>}
+                  {(p.focusRating ?? 5) >= 7 && (p.focusRating ?? 5) <= 8 && <span className="text-accent-cyan">You often find it possible to stay with a task. Notice what helps.</span>}
+                  {(p.focusRating ?? 5) >= 9 && <span className="text-accent-green">Focus feels steady for you at the moment.</span>}
                 </div>
               </div>
 
@@ -346,7 +329,7 @@ export const StepWizard: React.FC = () => {
                     🔥 How consistent are you with your habits?
                   </label>
                   <span className="font-mono text-accent-gold text-base font-bold">
-                    {p.consistencyRating || 4} <span className="text-xs text-text-muted">/ 10</span>
+                    {p.consistencyRating ?? 5} <span className="text-xs text-text-muted">/ 10</span>
                   </span>
                 </div>
 
@@ -354,22 +337,22 @@ export const StepWizard: React.FC = () => {
                   type="range"
                   min="1"
                   max="10"
-                  value={p.consistencyRating || 4}
+                  value={p.consistencyRating ?? 5}
                   onChange={e => updateOnboardingProfile({ consistencyRating: parseInt(e.target.value) })}
                   className="w-full accent-accent-gold cursor-pointer"
                 />
 
                 <div className="flex justify-between text-[11px] font-mono text-text-muted">
-                  <span>1 (Irregular Effort)</span>
+                  <span>1 (Rarely consistent)</span>
                   <span>5 (On & Off)</span>
-                  <span>10 (Unshakable Daily Routine)</span>
+                  <span>10 (Very consistent)</span>
                 </div>
 
                 <div className="p-3 rounded-xl bg-surface border border-border-subtle text-xs font-mono">
-                  {(p.consistencyRating || 4) <= 3 && <span className="text-accent-red">🔴 Irregular execution. High risk of timeline drift into 💀 Unchanged path.</span>}
-                  {(p.consistencyRating || 4) >= 4 && (p.consistencyRating || 4) <= 6 && <span className="text-accent-amber">🟡 Bursts of intense effort followed by days of distraction.</span>}
-                  {(p.consistencyRating || 4) >= 7 && (p.consistencyRating || 4) <= 8 && <span className="text-accent-gold">🎯 Solid habit discipline. Compounding momentum compounding daily.</span>}
-                  {(p.consistencyRating || 4) >= 9 && <span className="text-accent-green">🚀 Unshakable execution. Top 1% trajectory unlocked.</span>}
+                  {(p.consistencyRating ?? 5) <= 3 && <span className="text-accent-red">Your routine changes often. Choose a habit small enough to repeat.</span>}
+                  {(p.consistencyRating ?? 5) >= 4 && (p.consistencyRating ?? 5) <= 6 && <span className="text-accent-amber">Some weeks are steadier than others. That is useful context.</span>}
+                  {(p.consistencyRating ?? 5) >= 7 && (p.consistencyRating ?? 5) <= 8 && <span className="text-accent-gold">You have a few routines that tend to stick.</span>}
+                  {(p.consistencyRating ?? 5) >= 9 && <span className="text-accent-green">Consistency is one of your current strengths.</span>}
                 </div>
               </div>
             </div>
@@ -381,9 +364,9 @@ export const StepWizard: React.FC = () => {
           <div className="space-y-6">
             <div>
               <span className="font-mono text-xs text-accent-gold uppercase">Step 03</span>
-              <h2 className="font-display text-3xl font-bold text-white mt-1">YOUR BIGGEST GOAL</h2>
+              <h2 className="font-display text-3xl font-bold text-white mt-1">Something you want to work toward</h2>
               <p className="text-sm text-text-secondary font-body mt-1">
-                What is the primary milestone you are trying to achieve?
+                Keep it yours. It can be practical, personal, or still a work in progress.
               </p>
             </div>
 
@@ -394,56 +377,30 @@ export const StepWizard: React.FC = () => {
                   rows={3}
                   value={p.goalStatement || ''}
                   onChange={e => updateOnboardingProfile({ goalStatement: e.target.value })}
-                  placeholder="e.g. I want to get a software engineering job paying ₹15L/year by 2027."
+                  placeholder="e.g. I want to finish a course, build something, or make time for a hobby."
                   className="w-full bg-void border border-border-subtle rounded-xl p-4 text-sm text-white font-mono focus:border-accent-gold focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-mono text-text-muted uppercase mb-1">Target Role / Career</label>
+                  <label className="block text-xs font-mono text-text-muted uppercase mb-1">An area I might explore (optional)</label>
                   <input
                     type="text"
                     value={p.targetCareer || ''}
                     onChange={e => updateOnboardingProfile({ targetCareer: e.target.value })}
-                    placeholder="e.g. Full-Stack / AI Engineer"
+                    placeholder="e.g. design, software, teaching, or something else"
                     className="w-full bg-void border border-border-subtle rounded-xl p-3 text-sm text-white font-mono focus:border-accent-gold focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-text-muted uppercase mb-1">Target Income Scenario (Optional)</label>
-                  <input
-                    type="text"
-                    value={p.targetIncome || ''}
-                    onChange={e => updateOnboardingProfile({ targetIncome: e.target.value })}
-                    placeholder="e.g. ₹15L / $80k annually"
-                    className="w-full bg-void border border-border-subtle rounded-xl p-3 text-sm text-white font-mono focus:border-accent-gold focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono text-text-muted uppercase mb-1">Target Horizon Year</label>
-                  <div className="grid grid-cols-4 gap-2 font-mono text-xs">
-                    {['2026', '2027', '2028', '2030'].map(yr => (
-                      <button
-                        key={yr}
-                        onClick={() => updateOnboardingProfile({ targetYear: yr })}
-                        className={`p-2.5 rounded-xl border ${p.targetYear === yr ? 'border-accent-gold bg-accent-gold/20 text-white font-bold' : 'border-border-subtle text-text-muted'}`}
-                      >
-                        {yr}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono text-text-muted uppercase mb-1">Biggest Skill To Master</label>
+                  <label className="block text-xs font-mono text-text-muted uppercase mb-1">Something I want to practice (optional)</label>
                   <input
                     type="text"
                     value={p.biggestSkill || ''}
                     onChange={e => updateOnboardingProfile({ biggestSkill: e.target.value })}
-                    placeholder="e.g. Data Structures & System Design"
+                    placeholder="e.g. writing, a language, or a technical skill"
                     className="w-full bg-void border border-border-subtle rounded-xl p-3 text-sm text-white font-mono focus:border-accent-gold focus:outline-none"
                   />
                 </div>
@@ -459,14 +416,14 @@ export const StepWizard: React.FC = () => {
               <span className="font-mono text-xs text-accent-violet uppercase">Step 04</span>
               <h2 className="font-display text-3xl font-bold text-white mt-1">YOUR HABIT MAP</h2>
               <p className="text-sm text-text-secondary font-body mt-1">
-                Select your primary patterns. Your habits write your future timeline.
+                Choose only the patterns you want to reflect on. None of these define you.
               </p>
             </div>
 
             <div className="space-y-6 font-body">
               {/* Digital Habits */}
               <div>
-                <label className="block text-xs font-mono text-accent-cyan uppercase mb-2">📱 Digital Habits (Select active)</label>
+                <label className="block text-xs font-mono text-accent-cyan uppercase mb-2">📱 Screen-time habits (optional)</label>
                 <div className="flex flex-wrap gap-2">
                   {['Instagram', 'YouTube', 'TikTok', 'Gaming', 'Doom-scrolling', 'Reddit', 'Twitter/X', 'Netflix', 'Online shopping'].map(item => {
                     const active = (p.digitalHabits || []).includes(item);
@@ -487,7 +444,7 @@ export const StepWizard: React.FC = () => {
 
               {/* Mental Patterns */}
               <div>
-                <label className="block text-xs font-mono text-accent-red uppercase mb-2">🧠 Mental Patterns (Select active)</label>
+                <label className="block text-xs font-mono text-accent-red uppercase mb-2">🧠 Patterns you want to notice (optional)</label>
                 <div className="flex flex-wrap gap-2">
                   {['Procrastination', 'Overthinking', 'Self-doubt', 'Avoidance', 'Inconsistent sleep', 'People-pleasing', 'Lack of structure', 'Fear of failure'].map(item => {
                     const active = (p.mentalPatterns || []).includes(item);
@@ -508,7 +465,7 @@ export const StepWizard: React.FC = () => {
 
               {/* Positive Habits */}
               <div>
-                <label className="block text-xs font-mono text-accent-green uppercase mb-2">🚀 Positive Habits (Select active)</label>
+                <label className="block text-xs font-mono text-accent-green uppercase mb-2">🚀 Things that help you (optional)</label>
                 <div className="flex flex-wrap gap-2">
                   {['Reading', 'Coding', 'Exercise', 'Meditation', 'Journaling', 'Networking', 'Building projects', 'Early waking'].map(item => {
                     const active = (p.positiveHabits || []).includes(item);
@@ -559,102 +516,66 @@ export const StepWizard: React.FC = () => {
           </div>
         )}
 
-        {/* STEP 5: TIMELINE START */}
+        {/* STEP 5: REVIEW WINDOW */}
         {currentStep === 5 && (
           <div className="space-y-6">
             <div>
               <span className="font-mono text-xs text-accent-cyan uppercase">Step 05</span>
-              <h2 className="font-display text-3xl font-bold text-white mt-1">TIMELINE SIMULATION BOUNDS</h2>
+              <h2 className="font-display text-3xl font-bold text-white mt-1">A WINDOW FOR REFLECTION</h2>
               <p className="text-sm text-text-secondary font-body mt-1">
-                Configure your simulation starting year and timeline horizon.
+                This version uses 2026–2031 as example check-in years. They are prompts, not a forecast, and cannot be changed here.
               </p>
             </div>
 
-            <div className="space-y-6 font-body">
-              <div>
-                <label className="block text-xs font-mono text-text-muted uppercase mb-2">Simulation Start Year</label>
-                <div className="grid grid-cols-3 gap-3 font-mono text-sm">
-                  {['2025', '2026', '2027'].map(yr => (
-                    <button
-                      key={yr}
-                      onClick={() => updateOnboardingProfile({ startYear: yr })}
-                      className={`p-4 rounded-xl border text-center font-bold ${p.startYear === yr ? 'border-accent-cyan bg-accent-cyan/20 text-white' : 'border-border-subtle text-text-muted'}`}
-                    >
-                      {yr}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-mono text-text-muted uppercase mb-2">Simulation Horizon Depth</label>
-                <div className="grid grid-cols-3 gap-3 font-mono text-sm">
-                  {['3 Years', '5 Years', '10 Years'].map(depth => (
-                    <button
-                      key={depth}
-                      onClick={() => updateOnboardingProfile({ horizonYears: depth as any })}
-                      className={`p-4 rounded-xl border text-center font-bold ${p.horizonYears === depth ? 'border-accent-violet bg-accent-violet/20 text-white' : 'border-border-subtle text-text-muted'}`}
-                    >
-                      {depth}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-mono text-text-muted uppercase mb-2">Which scenario are you most afraid of?</label>
-                <div className="space-y-2 font-mono text-xs">
-                  {[
-                    '💀 Nothing changes — staying in the exact same spot',
-                    '📍 Slow drift — working hard but never really getting there',
-                    '🎯 Being almost there but giving up right before breakthrough'
-                  ].map(option => (
-                    <button
-                      key={option}
-                      onClick={() => updateOnboardingProfile({ scaredScenario: option })}
-                      className={`w-full p-3.5 rounded-xl border text-left transition-all ${
-                        p.scaredScenario === option ? 'border-accent-red bg-accent-red/15 text-white font-semibold' : 'border-border-subtle text-text-secondary hover:text-white'
-                      }`}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </div>
+            <div className="space-y-3 font-body">
+              <label className="block text-xs font-mono text-text-muted uppercase mb-2">What would you like to think through first?</label>
+              {[
+                'What would I keep if my routine stayed similar?',
+                'What small change could I try this week?',
+                'What bigger idea would I like to explore?'
+              ].map(option => (
+                <button
+                  key={option}
+                  onClick={() => updateOnboardingProfile({ scaredScenario: option })}
+                  className={`w-full p-3.5 rounded-xl border text-left transition-all ${
+                    p.scaredScenario === option ? 'border-accent-cyan bg-accent-cyan/10 text-text-primary font-semibold' : 'border-border-subtle text-text-secondary hover:text-text-primary'
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
             </div>
           </div>
         )}
 
-        {/* STEP 6: THE FINAL QUESTION */}
+        {/* STEP 6: ONE LAST NOTE */}
         {currentStep === 6 && (
           <div className="space-y-6 text-center py-4">
-            <div className="inline-flex items-center gap-1.5 text-xs font-mono text-accent-red uppercase tracking-widest px-3 py-1 rounded-full bg-accent-red/10 border border-accent-red/30 mb-2">
-              <ShieldAlert className="w-3.5 h-3.5" /> ONE LAST QUESTION
+            <div className="inline-flex items-center gap-1.5 text-xs font-mono text-accent-cyan uppercase tracking-widest px-3 py-1 rounded-full bg-accent-cyan/10 border border-accent-cyan/30 mb-2">
+              <ShieldAlert className="w-3.5 h-3.5" /> ONE LAST NOTE
             </div>
 
             <h2 className="font-display text-2xl sm:text-4xl font-bold text-white max-w-2xl mx-auto leading-snug">
-              If you continue living exactly like today — <br />
-              <span className="text-accent-amber">same habits, same distractions, same effort</span> — <br />
-              where do you think you'll be in 5 years?
+              What is one thing you'd like to make a little more room for?
             </h2>
 
-            <p className="text-xs font-mono text-text-muted max-w-lg mx-auto italic">
-              "Be honest. The AI won't judge you. But it will show you."
+            <p className="text-sm text-text-muted max-w-lg mx-auto">
+              This note stays in your browser and helps you set an intention. It does not affect a prediction.
             </p>
 
             <textarea
               rows={4}
               value={p.fiveYearReflection || ''}
               onChange={e => updateOnboardingProfile({ fiveYearReflection: e.target.value })}
-              placeholder="e.g. I might end up settling for a job I dislike, regretting the hours I wasted scrolling reels when I should have been building..."
+              placeholder="e.g. Make a little time to practice, rest, or work on a project I care about..."
               className="w-full bg-void border border-border-subtle rounded-2xl p-4 text-sm font-mono text-white focus:border-accent-violet focus:outline-none"
             />
 
             <button
               onClick={handleFinish}
-              className="w-full py-5 rounded-2xl bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan text-white font-mono font-bold text-lg tracking-wider hover:scale-[1.02] transition-all shadow-glow-violet flex items-center justify-center gap-2"
+              className="w-full py-5 rounded-xl bg-accent-blue text-white font-display font-bold text-base hover:translate-y-[-2px] transition-all flex items-center justify-center gap-2"
             >
-              GENERATE MY FUTURE <ArrowRight className="w-6 h-6" />
+              Create my planning notes <ArrowRight className="w-5 h-5" />
             </button>
           </div>
         )}

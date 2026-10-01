@@ -1,5 +1,8 @@
 import type { SimulationResult, FutureSelfMessage, DailyJournalEntry, LetterToSelf, WeeklyCheckin, AccountabilityPartner } from '../types/simulation';
-import { defaultSimulationResult, defaultFutureSelfChats, defaultDailyLogs, defaultLetter, defaultWeeklyCheckins } from '../data/demoData';
+import { defaultSimulationResult } from '../data/demoData';
+import { aiEngine } from './aiEngine';
+
+const makeSampleSimulation = () => aiEngine.generateLocalSimulation(defaultSimulationResult.userProfile);
 
 const KEYS = {
   CURRENT_SIMULATION: 'atm_current_simulation',
@@ -17,16 +20,17 @@ export const storageService = {
     try {
       const raw = localStorage.getItem(KEYS.CURRENT_SIMULATION);
       if (!raw || raw === 'undefined' || raw === 'null') {
-        return defaultSimulationResult;
+        return makeSampleSimulation();
       }
       const parsed = JSON.parse(raw);
       if (parsed && parsed.scenarios && parsed.scenarios.unchanged && parsed.userProfile) {
+        if (parsed.id === defaultSimulationResult.id) return makeSampleSimulation();
         return parsed;
       }
     } catch (e) {
       console.warn('Error reading current simulation from localStorage:', e);
     }
-    return defaultSimulationResult;
+    return makeSampleSimulation();
   },
 
   saveCurrentSimulation(sim: SimulationResult): void {
@@ -41,11 +45,11 @@ export const storageService = {
   getHistory(): SimulationResult[] {
     try {
       const raw = localStorage.getItem(KEYS.SIMULATION_HISTORY);
-      if (!raw || raw === 'undefined' || raw === 'null') return [defaultSimulationResult];
+      if (!raw || raw === 'undefined' || raw === 'null') return [];
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed)) return parsed.filter(item => item.id !== defaultSimulationResult.id);
     } catch {}
-    return [defaultSimulationResult];
+    return [];
   },
 
   addHistoryEntry(sim: SimulationResult): void {
@@ -65,9 +69,6 @@ export const storageService = {
     try {
       const raw = localStorage.getItem(`${KEYS.CHAT_MESSAGES}_${simId}_${scenario}`);
       if (!raw || raw === 'undefined' || raw === 'null') {
-        if (simId === defaultSimulationResult.id && scenario === 'onePercent') {
-          return defaultFutureSelfChats;
-        }
         return [];
       }
       const parsed = JSON.parse(raw);
@@ -88,11 +89,11 @@ export const storageService = {
   getDailyLogs(): DailyJournalEntry[] {
     try {
       const raw = localStorage.getItem(KEYS.DAILY_LOGS);
-      if (!raw || raw === 'undefined' || raw === 'null') return defaultDailyLogs;
+      if (!raw || raw === 'undefined' || raw === 'null') return [];
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) return parsed;
     } catch {}
-    return defaultDailyLogs;
+    return [];
   },
 
   addDailyLog(log: DailyJournalEntry): DailyJournalEntry[] {
@@ -107,11 +108,11 @@ export const storageService = {
   getLetterToSelf(): LetterToSelf | null {
     try {
       const raw = localStorage.getItem(KEYS.LETTER_TO_SELF);
-      if (!raw || raw === 'undefined' || raw === 'null') return defaultLetter;
+      if (!raw || raw === 'undefined' || raw === 'null') return null;
       const parsed = JSON.parse(raw);
       if (parsed && parsed.content) return parsed;
     } catch {}
-    return defaultLetter;
+    return null;
   },
 
   saveLetterToSelf(letter: LetterToSelf): void {
@@ -123,11 +124,11 @@ export const storageService = {
   getWeeklyCheckins(): WeeklyCheckin[] {
     try {
       const raw = localStorage.getItem(KEYS.WEEKLY_CHECKINS);
-      if (!raw || raw === 'undefined' || raw === 'null') return defaultWeeklyCheckins;
+      if (!raw || raw === 'undefined' || raw === 'null') return [];
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) return parsed;
     } catch {}
-    return defaultWeeklyCheckins;
+    return [];
   },
 
   addWeeklyCheckin(checkin: WeeklyCheckin): WeeklyCheckin[] {

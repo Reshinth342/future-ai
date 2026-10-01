@@ -39,9 +39,9 @@ export const aiEngine = {
       digitalDependency: Math.min(95, Math.round(profile.socialMediaHours * 12 + 10)),
       sleepQuality: Math.round((profile.sleepHours / 8) * 75),
       overallScore,
-      summary: `Based on ${profile.socialMediaHours}h daily screen time and ${profile.learningHours}h daily building, your trajectory sits at ${overallScore}/100. High digital friction is your primary drag.`,
-      biggestDrag: profile.digitalHabits.length > 0 ? `Digital dependency on ${profile.digitalHabits.slice(0, 2).join(', ')}` : 'Inconsistent daily execution',
-      biggestOpportunity: `Redirecting 2 hours of social media daily compounds into ${redirect5Yr} hours of deep skill building over 5 years.`
+      summary: `A rough baseline from your self-reported ${profile.socialMediaHours}h of daily screen time and ${profile.learningHours}h of daily learning. Use it to start a conversation with yourself, not as an assessment.`,
+      biggestDrag: profile.digitalHabits.length > 0 ? `You listed ${profile.digitalHabits.slice(0, 2).join(' and ')} as habits you may want to review.` : 'You have not identified a habit to change yet.',
+      biggestOpportunity: `If you chose to redirect 2 hours a day, that would add up to about ${redirect5Yr.toLocaleString()} hours over five years. This is arithmetic, not a claim about what you would achieve.`
     };
 
     // Scenarios generator
@@ -206,15 +206,43 @@ export const aiEngine = {
       }
     };
 
-    const roastText = `ROAST REPORT — ${profile.name.toUpperCase()} 🔥
+    const roastText = `A CHECK-IN FOR ${profile.name.toUpperCase()}
 
-You spend ${profile.socialMediaHours} hours a day on ${profile.digitalHabits.join(', ') || 'social media'}. That's ${Math.round(profile.socialMediaHours * 7)} hours a week. Almost a full-time job — except it pays you zero rupees and costs you your future.
+You estimated about ${profile.socialMediaHours} hours a day on ${profile.digitalHabits.join(', ') || 'social and entertainment apps'} and ${profile.learningHours} hours learning or building. Those numbers are a snapshot, not a grade.
 
-You stated your goal is: "${profile.goalStatement}". Yet right now, you spend ${profile.learningHours} hours a day learning and ${profile.socialMediaHours} hours consuming content. You're giving 3x more focus to algorithms designed by billionaires than to your own goal.
+Your goal right now is: "${profile.goalStatement}".
 
-You're not stuck because you lack talent or intelligence. You're stuck because ${profile.mentalPatterns[0] || 'procrastination'} has built a very comfortable digital prison around you.
+One question to sit with: what is a small, realistic amount of time you would like to make for that goal this week? You do not need to overhaul your routine. Try one change, notice how it feels, and adjust it to fit your life.`;
 
-The good news: The gap between the 💀 Unchanged and 🚀 1% Better is measured in 4 hours per day, not genius. Stop donating your prime years to feed social media servers.`;
+    const scenarioCopy: Record<ScenarioKey, { title: string; subtitle: string; prompt: string; color: string; hex: string }> = {
+      unchanged: { title: 'IF THE ROUTINE STAYS SIMILAR', subtitle: 'A prompt for noticing what you would keep, and what you might want to revisit.', prompt: 'What would you want to review if this routine still felt the same?', color: 'var(--accent-red)', hex: '#b8424c' },
+      reality: { title: 'YOUR CURRENT STARTING POINT', subtitle: 'A neutral reference based on the estimates you entered today.', prompt: 'Which part of your current routine is working well enough to keep?', color: 'var(--accent-amber)', hex: '#a65f16' },
+      onePercent: { title: 'A SMALL, STEADY CHANGE', subtitle: 'Explore what could change if you made a manageable adjustment and kept reviewing it.', prompt: 'What is one change small enough to try this week?', color: 'var(--accent-cyan)', hex: '#147e78' },
+      goalAchieved: { title: 'A GOAL-FOCUSED ROUTE', subtitle: 'Break your stated goal into steps you can check, revise, and own.', prompt: 'What would be a useful first milestone toward this goal?', color: 'var(--accent-gold)', hex: '#99700e' },
+      dream: { title: 'A MORE AMBITIOUS OPTION', subtitle: 'A space to think bigger while staying open about effort, timing, and uncertainty.', prompt: 'What would you explore if you had room to experiment?', color: 'var(--accent-violet)', hex: '#7654a6' }
+    };
+
+    Object.values(scenarios).forEach(path => {
+      const copy = scenarioCopy[path.key];
+      path.title = copy.title;
+      path.subtitle = copy.subtitle;
+      path.badge = 'WHAT-IF EXERCISE';
+      path.color = copy.color;
+      path.hex = copy.hex;
+      path.score = overallScore;
+      path.divergencePoint = 'Review this idea during your next check-in.';
+      path.criticalMilestones = [copy.prompt, `Name one action related to ${profile.biggestSkill || 'a skill you want to build'}.`, 'Revisit the plan when your circumstances change.'];
+      path.catalystDecision = copy.prompt;
+
+      Object.values(path.years).forEach(snapshot => {
+        snapshot.career = `${copy.prompt} Use ${snapshot.year} as a check-in date, not an expected outcome.`;
+        snapshot.skills = [{ name: profile.biggestSkill || 'A skill you choose', level: Math.min(100, Math.max(0, Math.round(profile.learningHours * 10))), status: 'Starting estimate' }];
+        snapshot.habits = `Your current estimate: ${profile.socialMediaHours}h of screen time and ${profile.learningHours}h of learning or building per day.`;
+        snapshot.opportunities = `Write down one opportunity you could look for in ${snapshot.year}, then update this note as you learn more.`;
+        snapshot.score = overallScore;
+        snapshot.incomeScenario = undefined;
+      });
+    });
 
     // 30 day plan dynamic generation
     const thirtyDayPlan = Array.from({ length: 30 }, (_, i) => {
@@ -228,18 +256,18 @@ The good news: The gap between the 💀 Unchanged and 🚀 1% Better is measured
         day,
         theme,
         mission: day === 1 
-          ? `The Digital Purge: Block ${profile.digitalHabits[0] || 'social media'} for 24 hours.`
+          ? `Choose one small change related to ${profile.digitalHabits[0] || 'a routine you want to adjust'}. Keep it optional and manageable.`
           : day === 7
-          ? `First Real Session: Build a working demo of ${profile.biggestSkill} for 2 hours straight without video tutorials.`
+          ? `Spend a short session with ${profile.biggestSkill || 'a skill or interest'}, then note what you would change next time.`
           : day === 14
-          ? `Milestone Review: Publish a update on LinkedIn showing your project progress.`
+          ? 'Check in with yourself: what has felt useful, and what has not fit your week?'
           : day === 30
-          ? `THE TIMELINE SHIFT: Recalculate your 5-year future potential score and lock in your 90-day sprint!`
-          : `Day ${day} Mission: Execute ${day * 45} mins of deep focus on ${profile.biggestSkill}.`,
-        habit: theme === 'Elimination' ? 'Digital Control' : theme === 'Foundation' ? 'Routine Structure' : theme === 'Momentum' ? 'Active Building' : 'Identity Anchoring',
-        skillTask: `Practice ${profile.biggestSkill} & build production features.`,
-        focusChallenge: `${Math.min(120, 45 + Math.floor(day / 2) * 5)} minutes uninterrupted focus block.`,
-        status: day <= 3 ? 'completed' as const : 'pending' as const
+          ? 'Review the month and decide whether you want to continue, change direction, or stop.'
+          : `If it fits today, spend a little time on ${profile.biggestSkill || 'something you care about'}.`,
+        habit: theme === 'Elimination' ? 'Notice a pattern' : theme === 'Foundation' ? 'Try a small routine' : theme === 'Momentum' ? 'Practice what matters' : 'Review and adjust',
+        skillTask: `Optional practice: ${profile.biggestSkill || 'something you want to learn'}.`,
+        focusChallenge: `${Math.min(45, 10 + Math.floor(day / 3) * 5)} minutes, if useful today.`,
+        status: 'pending' as const
       };
     });
 
@@ -257,13 +285,12 @@ The good news: The gap between the 💀 Unchanged and 🚀 1% Better is measured
         skillMasteryPercentage: Math.min(100, Math.round((redirect5Yr / 10000) * 100))
       },
       divergenceWindow: {
-        period: 'Next 90 Days',
-        leverageScore: 92,
+        period: 'When it suits you',
+        leverageScore: 0,
         actions: [
-          `Build 1 real project using ${profile.biggestSkill} (not a tutorial)`,
-          `Cap daily social media usage strictly under 1 hour`,
-          `Establish a consistent ${profile.sleepHours < 7 ? '7.5h' : profile.sleepHours + 'h'} sleep schedule`,
-          `Connect with 5 people working in ${profile.targetCareer}`
+          `Choose one small step related to ${profile.biggestSkill || 'a goal you care about'}.`,
+          'Decide when you might try it, based on the time and energy you have.',
+          'At your next check-in, keep it, change it, or let it go.'
         ]
       },
       futureScore: {
@@ -296,55 +323,21 @@ The good news: The gap between the 💀 Unchanged and 🚀 1% Better is measured
       }
     }
 
-    // Fallback generator
-    const name = profile.name;
-    const goal = profile.goalStatement;
-    const social = profile.socialMediaHours;
-    const skill = profile.biggestSkill;
+    const prompts: Record<ScenarioKey, string> = {
+      unchanged: 'If your routine stayed similar for a while, what would you want to keep, and what might you revisit?',
+      reality: 'Which part of your current routine is already working for you?',
+      onePercent: 'What is one small adjustment you could try this week without overloading yourself?',
+      goalAchieved: `What is a practical first milestone for this goal: "${profile.goalStatement}"?`,
+      dream: 'What possibility would you like to explore, while staying open about what you do not know yet?'
+    };
 
-    if (scenario === 'unchanged') {
-      return `Look at me in ${year}, ${name}. I'm the version of you that kept delaying.
+    return `This is an imagined ${year} perspective for reflection, not a message from your actual future.
 
-I kept saying "I'll start tomorrow" or "just 10 more minutes on ${profile.digitalHabits[0] || 'Instagram'}". Tomorrow became next year, and next year became ${year}.
+You asked: "${userPrompt}"
 
-You asked: "${userPrompt}". 
-Here's the raw truth: In this timeline, we never reached "${goal}". We took the comfortable, easy exit every single day. And the hardest part isn't the money or the job — it's knowing that we had the talent in 2026, but let it slip through our fingers one hour at a time.
+One way to think about it: ${prompts[scenario]}
 
-You're still sitting in 2026. You can delete this timeline right now. But you have to change the choices you make TODAY.`;
-    }
-
-    if (scenario === 'onePercent') {
-      return `Hey ${name}. Greeting you from ${year} in the 🚀 1% Better timeline.
-
-When you ask "${userPrompt}", I remember being in your exact shoes in 2026. 
-
-The turning point wasn't some grand epiphany. It was when you stopped trying to fix your entire life overnight and just committed to being 1% better every week. 
-
-You cut ${social}h of daily social media down to 1h. That gave us 4 extra hours every single day. We used that time to master ${skill} and build real things. 
-
-Was it hard? Yes, the first 3 weeks felt uncomfortable. But looking at our life in ${year} — the financial security, the career autonomy, the pride in our work — it was worth every single minute. Start today.`;
-    }
-
-    if (scenario === 'goalAchieved') {
-      return `It's ${name} from ${year}! 
-
-Direct answer to "${userPrompt}": WE DID IT. We landed the role and reached: "${goal}".
-
-The key was laser focus. When everyone else was scrolling endlessly, we locked into a 90-day sprint on ${skill}. We stopped consuming tutorials and started shipping production code. 
-
-Don't negotiate with your habits today. Execute the 30-day shift. The 2028 version of you is waiting.`;
-    }
-
-    // Dream scenario
-    return `Hello from the 🌙 Dream Scenario in ${year}, ${name}.
-
-You asked: "${userPrompt}". 
-
-In this timeline, you didn't just aim for "normal". You built something of your own, mastered ${skill}, and refused to let small-minded fear dictate your ceiling. 
-
-Most people in 2026 are playing it safe, trading 5 hours a day for dopamine pixels. You took a bold risk, built in public, and backed yourself. The world rewards those who execute with intensity. 
-
-You have everything inside you right now to step onto this path. Stop waiting for permission.`;
+You estimated ${profile.learningHours} hours a day for learning or building and named ${profile.biggestSkill} as a skill of interest. Treat those as starting notes, not a score. What small next step feels realistic for you?`;
   },
 
   async callAnthropicApiForFutureSelf(
@@ -354,7 +347,7 @@ You have everything inside you right now to step onto this path. Stop waiting fo
     year: YearKey,
     apiKey: string
   ): Promise<string | null> {
-    const systemPrompt = `You are simulated Future Self (${profile.name}) speaking directly to your 2026 self from the year ${year} in the timeline: ${scenario.toUpperCase()}.
+    const systemPrompt = `Write a reflective exercise in an imagined future-self voice for ${profile.name}, set in ${year}, using the scenario: ${scenario.toUpperCase()}.
 User background:
 - Name: ${profile.name}, Age in 2026: ${profile.age}, Role: ${profile.role}, Country: ${profile.country}
 - Primary Goal: ${profile.goalStatement}
@@ -362,10 +355,11 @@ User background:
 - Daily social media in 2026: ${profile.socialMediaHours}h/day, Learning: ${profile.learningHours}h/day
 
 Guidelines:
-1. Speak in first-person as ${profile.name} in ${year}.
-2. Keep the response personal, emotionally grounded, direct, and under 150 words.
-3. Explicitly reference their current 2026 habits, daily hours, and exact goal statement.
-4. Do NOT sound like a preachy motivational speaker. Sound like an older version of themselves looking back.`;
+1. Clearly say this is an imagined reflection, not knowledge of the user's actual future.
+2. Keep the response personal, grounded, direct, and under 150 words.
+3. Ask a useful question or suggest one small experiment based on their stated interests.
+4. Do not claim they will get a particular job, salary, relationship, health outcome, or emotional state. Do not invent probabilities or shame them.
+5. Avoid preachy motivation. Respect uncertainty and their circumstances.`;
 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -389,14 +383,14 @@ Guidelines:
   },
 
   async callAnthropicApiForSimulation(profile: UserProfile, apiKey: string): Promise<SimulationResult | null> {
-    const prompt = `You are AI Time Machine 3.0. Generate a complete 5-scenario simulation JSON for user:
+    const prompt = `Create a personal planning exercise as JSON for this user. This is not a forecasting model:
 Name: ${profile.name}, Age: ${profile.age}, Role: ${profile.role}, Country: ${profile.country}
 Goal: ${profile.goalStatement}
 Social Media: ${profile.socialMediaHours}h/day, Learning: ${profile.learningHours}h/day, Sleep: ${profile.sleepHours}h/day
 Digital habits: ${profile.digitalHabits.join(', ')}
 Skill to develop: ${profile.biggestSkill}
 
-Return JSON with exact keys: currentReality, scenarios (unchanged, reality, onePercent, goalAchieved, dream), habitImpact, divergenceWindow, futureScore, roastText, thirtyDayPlan.`;
+Return JSON with exact keys: currentReality, scenarios (unchanged, reality, onePercent, goalAchieved, dream), habitImpact, divergenceWindow, futureScore, roastText, thirtyDayPlan. Use the fields for neutral reflection prompts and actions only. Do not invent future jobs, salaries, achievements, personal outcomes, or regret probabilities. Any numeric index must be explicitly described as a simple heuristic, not a validated assessment. Do not include income estimates.`;
 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',

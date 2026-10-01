@@ -7,16 +7,16 @@ import { soundFx } from '../../services/audioService';
 import { Send, Sparkles, Zap, MessageSquare, Bot, User } from 'lucide-react';
 
 const PRESET_QUESTIONS = [
-  "What changed everything?",
-  "What was my biggest mistake?",
-  "What should I stop doing now?",
-  "Was the sacrifice worth it?",
-  "What skill mattered most?",
-  "What do you wish you'd started earlier?",
-  "How did you handle failure?",
-  "What would you tell 21-year-old me?",
-  "Did I achieve my goal?",
-  "What does your life look like now?"
+  "What is one small change I could test?",
+  "What part of my routine is already working?",
+  "How could I make time for this goal?",
+  "What is a realistic first milestone?",
+  "What might get in the way this week?",
+  "How can I make this plan easier to repeat?",
+  "What would I like to learn next?",
+  "What can I change if this plan does not fit?",
+  "What should I check in on next month?",
+  "What would a good-enough week look like?"
 ];
 
 export const FutureSelfChat: React.FC = () => {
@@ -30,11 +30,11 @@ export const FutureSelfChat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const scenarioMeta: Record<ScenarioKey, { title: string; color: string; hex: string; orbBg: string }> = {
-    unchanged: { title: '💀 UNCHANGED', color: 'text-accent-red', hex: '#ef4444', orbBg: 'from-accent-red via-red-900 to-black' },
-    reality: { title: '📍 REALITY', color: 'text-accent-amber', hex: '#f59e0b', orbBg: 'from-accent-amber via-amber-900 to-black' },
-    onePercent: { title: '🚀 1% BETTER', color: 'text-accent-cyan', hex: '#06b6d4', orbBg: 'from-accent-cyan via-cyan-900 to-black' },
-    goalAchieved: { title: '🎯 GOAL ACHIEVED', color: 'text-accent-gold', hex: '#eab308', orbBg: 'from-accent-gold via-yellow-900 to-black' },
-    dream: { title: '🌙 DREAM SCENARIO', color: 'text-accent-violet', hex: '#8b5cf6', orbBg: 'from-accent-violet via-purple-900 to-black' }
+    unchanged: { title: 'SIMILAR ROUTINE', color: 'text-accent-red', hex: '#b8424c', orbBg: 'from-accent-red via-red-100 to-white' },
+    reality: { title: 'CURRENT STARTING POINT', color: 'text-accent-amber', hex: '#a65f16', orbBg: 'from-accent-amber via-amber-100 to-white' },
+    onePercent: { title: 'SMALL STEADY CHANGE', color: 'text-accent-cyan', hex: '#147e78', orbBg: 'from-accent-cyan via-teal-100 to-white' },
+    goalAchieved: { title: 'GOAL-FOCUSED ROUTE', color: 'text-accent-gold', hex: '#99700e', orbBg: 'from-accent-gold via-yellow-100 to-white' },
+    dream: { title: 'STRETCH IDEA', color: 'text-accent-violet', hex: '#7654a6', orbBg: 'from-accent-violet via-purple-100 to-white' }
   };
 
   const meta = scenarioMeta[activeScenario];
@@ -50,11 +50,9 @@ export const FutureSelfChat: React.FC = () => {
         scenario: activeScenario,
         year: selectedYear,
         sender: 'future_self',
-        text: `You made it to ${selectedYear}.
+        text: `Imagine checking in with yourself in ${selectedYear}. This is a writing prompt, not a message from your actual future.
 
-I know you have questions. So did I, sitting where you are in 2026.
-
-Ask me anything. But I should warn you — I'm going to be honest in ways the 21-year-old you might not want to hear.`,
+      What would you want that version of you to ask about your routine, your goal, or the next small step?`,
         timestamp: new Date().toISOString()
       };
       setMessages([initialGreeting]);
@@ -116,7 +114,7 @@ Ask me anything. But I should warn you — I'm going to be honest in ways the 21
             <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-accent-green border-2 border-void animate-ping" />
           </div>
           <div>
-            <div className="text-[10px] text-text-muted uppercase tracking-widest">PERSONA SIMULATION</div>
+            <div className="text-[10px] text-text-muted uppercase tracking-widest">IMAGINED REFLECTION</div>
             <h2 className="font-display text-xl font-bold text-white">{profile.name.toUpperCase()} ({selectedYear})</h2>
             <div className="text-xs text-text-secondary mt-0.5" style={{ color: meta.hex }}>
               {meta.title} TIMELINE
@@ -126,7 +124,7 @@ Ask me anything. But I should warn you — I'm going to be honest in ways the 21
 
         {/* Bento Tile 2: Year Selector */}
         <div className="bento-card p-6 flex flex-col justify-between space-y-2">
-          <span className="text-[10px] text-text-muted uppercase tracking-widest">TIMELINE YEAR HORIZON</span>
+          <span className="text-[10px] text-text-muted uppercase tracking-widest">CHOOSE AN EXAMPLE YEAR</span>
           <div className="flex items-center gap-2">
             {(['2027', '2029', '2031'] as YearKey[]).map(yr => (
               <button
@@ -144,13 +142,13 @@ Ask me anything. But I should warn you — I'm going to be honest in ways the 21
 
         {/* Bento Tile 3: Live API Status */}
         <div className="bento-card p-6 flex flex-col justify-between space-y-2">
-          <span className="text-[10px] text-text-muted uppercase tracking-widest">AI TELEMETRY STREAM</span>
+          <span className="text-[10px] text-text-muted uppercase tracking-widest">RESPONSE SOURCE</span>
           <div className="flex items-center justify-between">
             <span className="text-xs text-text-secondary flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-accent-cyan" /> Engine: {apiKey ? 'Claude 3.5 Sonnet' : 'Local Neural Engine'}
+              <Zap className="w-4 h-4 text-accent-cyan" /> {apiKey ? 'Anthropic API' : 'Local prompt guide'}
             </span>
             <span className={`text-[10px] px-2.5 py-1 rounded-full font-bold border ${apiKey ? 'bg-accent-green/20 text-accent-green border-accent-green/40' : 'bg-white/10 text-text-muted border-white/20'}`}>
-              {apiKey ? 'API LIVE' : 'LOCAL'}
+              {apiKey ? 'OPTIONAL API' : 'ON DEVICE'}
             </span>
           </div>
         </div>
@@ -161,9 +159,9 @@ Ask me anything. But I should warn you — I'm going to be honest in ways the 21
         <div className="flex items-center justify-between border-b border-border-subtle pb-3">
           <div className="flex items-center gap-2 text-xs text-text-muted">
             <MessageSquare className="w-4 h-4 text-accent-violet" />
-            <span>COMMUNICATION CHANNEL: {selectedYear} FUTURE SELF</span>
+            <span>REFLECTION EXERCISE · {selectedYear}</span>
           </div>
-          <span className="text-[10px] text-accent-cyan animate-pulse">STREAM ACTIVE</span>
+          <span className="text-[10px] text-accent-cyan">READY WHEN YOU ARE</span>
         </div>
 
         {/* Messages Scroll Thread */}
@@ -232,7 +230,7 @@ Ask me anything. But I should warn you — I'm going to be honest in ways the 21
       {/* BENTO TILE: SUGGESTED QUESTIONS PILL GRID */}
       <div className="bento-card p-6 space-y-3">
         <span className="text-[10px] text-text-muted uppercase tracking-widest flex items-center gap-1.5">
-          <Sparkles className="w-3.5 h-3.5 text-accent-gold" /> RECOMMENDED PROMPT PILLS
+          <Sparkles className="w-3.5 h-3.5 text-accent-gold" /> QUESTIONS TO GET STARTED
         </span>
         <div className="flex flex-wrap gap-2">
           {PRESET_QUESTIONS.map(q => (

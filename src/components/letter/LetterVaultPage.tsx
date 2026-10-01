@@ -9,7 +9,7 @@ export const LetterVaultPage: React.FC = () => {
 
   const [content, setContent] = useState<string>(letter?.content || '');
   const [deliverYear, setDeliverYear] = useState<string>('2031');
-  const [isSaved, setIsSaved] = useState<boolean>(!!letter?.isOpened);
+  const [isSaved, setIsSaved] = useState<boolean>(!!letter);
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,22 +32,22 @@ export const LetterVaultPage: React.FC = () => {
       <div className="bento-card p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
           <div className="text-xs text-accent-gold uppercase tracking-widest flex items-center gap-2">
-            <Mail className="w-4 h-4 text-accent-gold" /> BENTO DASHBOARD · TIME CAPSULE VAULT
+            <Mail className="w-4 h-4 text-accent-gold" /> A NOTE FOR LATER
           </div>
           <h1 className="font-display text-3xl sm:text-4xl font-bold text-white mt-1">
-            LETTER TO YOUR FUTURE SELF
+            A letter to read again
           </h1>
           <p className="text-xs text-text-secondary mt-1">
-            Write a letter to the version of you in {deliverYear}. Sealed and stored in memory.
+            Saved in this browser. Come back on your chosen date to read it; no reminder or email is sent.
           </p>
         </div>
 
         <div className="flex items-center gap-3 bg-void border border-border-subtle p-4 rounded-2xl">
           <Lock className={`w-6 h-6 ${isSaved ? 'text-accent-green' : 'text-text-muted'}`} />
           <div className="text-xs">
-            <div className="text-text-muted">VAULT STATUS</div>
+            <div className="text-text-muted">LETTER STATUS</div>
             <div className={`font-bold ${isSaved ? 'text-accent-green' : 'text-accent-amber'}`}>
-              {isSaved ? 'SEALED & LOCKED 🔒' : 'DRAFT IN PROGRESS'}
+              {isSaved ? 'SAVED IN THIS BROWSER' : 'DRAFT IN PROGRESS'}
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@ export const LetterVaultPage: React.FC = () => {
 
           <div className="space-y-4 text-xs">
             <div>
-              <label className="block text-text-muted uppercase mb-1">Deliver On Year Horizon</label>
+              <label className="block text-text-muted uppercase mb-1">Choose a year to revisit</label>
               <select
                 value={deliverYear}
                 onChange={e => setDeliverYear(e.target.value)}
@@ -75,7 +75,7 @@ export const LetterVaultPage: React.FC = () => {
                 <option value="2028">2028 (+2 Years)</option>
                 <option value="2029">2029 (+3 Years)</option>
                 <option value="2030">2030 (+4 Years)</option>
-                <option value="2031">2031 (+5 Years Horizon)</option>
+                <option value="2031">2031 (+5 years)</option>
               </select>
             </div>
           </div>
@@ -84,7 +84,7 @@ export const LetterVaultPage: React.FC = () => {
         {/* Bento Tile 2: Letter Composer / Vault Card (2 Cols) */}
         <div className="bento-card lg:col-span-2 p-6 sm:p-8 space-y-4">
           <div className="text-xs text-text-muted uppercase tracking-widest flex items-center gap-1.5 border-b border-border-subtle pb-3">
-            <Mail className="w-4 h-4 text-accent-gold" /> CAPSULE COMPOSER
+            <Mail className="w-4 h-4 text-accent-gold" /> YOUR NOTE
           </div>
 
           <form onSubmit={handleSave} className="space-y-4 text-xs">
@@ -93,7 +93,7 @@ export const LetterVaultPage: React.FC = () => {
               value={content}
               onChange={e => setContent(e.target.value)}
               disabled={isSaved}
-              placeholder="Dear future me in 2031..."
+              placeholder={`A note to myself in ${deliverYear}...`}
               className="w-full bg-void border border-border-subtle rounded-2xl p-4 text-white leading-relaxed focus:outline-none focus:border-accent-gold"
             />
 

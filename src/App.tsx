@@ -1,6 +1,5 @@
 import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
-import { ParticleField } from './components/ui/ParticleField';
 import { Navbar } from './components/ui/Navbar';
 import { LandingPage } from './components/landing/LandingPage';
 import { StepWizard } from './components/onboarding/StepWizard';
@@ -16,10 +15,7 @@ const AppContent: React.FC = () => {
   const { activeView } = useApp();
 
   return (
-    <div className="min-h-screen bg-void text-text-primary flex flex-col font-body selection:bg-accent-blue/30 selection:text-white relative overflow-x-hidden">
-      {/* Particle Canvas Background */}
-      <ParticleField />
-
+    <div className="min-h-screen bg-transparent text-text-primary flex flex-col font-body relative overflow-x-hidden">
       {/* Main Header Navigation */}
       <Navbar />
 
@@ -39,12 +35,12 @@ const AppContent: React.FC = () => {
       {/* Footer */}
       <footer className="relative z-10 border-t border-border-subtle bg-void/90 py-8 px-4 text-center font-mono text-xs text-text-muted space-y-2">
         <div className="flex flex-wrap items-center justify-center gap-4 text-text-secondary">
-          <span>AI TIME MACHINE · v3.0</span>
+          <span>FUTURE / IN PROGRESS</span>
           <span>·</span>
-          <span>"Your habits are a vote for who you're becoming."</span>
+          <span>A planning prompt, not a promise.</span>
         </div>
         <div className="text-[11px] text-text-muted">
-          AI-generated scenarios are simulations, not predictions or guaranteed professional advice.
+          Scenarios are reflective examples, not forecasts, financial advice, or guaranteed outcomes.
         </div>
       </footer>
     </div>

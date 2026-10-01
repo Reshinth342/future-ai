@@ -24,10 +24,10 @@ export const PathComparison: React.FC<PathComparisonProps> = ({ simulation }) =>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-border-subtle pb-4">
         <div>
           <span className="font-mono text-xs text-accent-cyan uppercase tracking-widest flex items-center gap-1.5">
-            <ArrowLeftRight className="w-3.5 h-3.5" /> PATH COMPARISON · SPLIT VIEW
+            <ArrowLeftRight className="w-3.5 h-3.5" /> COMPARE TWO WHAT-IF NOTES
           </span>
           <h3 className="font-display text-2xl font-bold text-white mt-1">
-            TWO TIMELINES. ONE YOU.
+            Which one feels useful?
           </h3>
         </div>
 
@@ -38,11 +38,11 @@ export const PathComparison: React.FC<PathComparisonProps> = ({ simulation }) =>
             onChange={e => setScenarioA(e.target.value as ScenarioKey)}
             className="bg-void border border-accent-red/40 rounded-xl px-3 py-2 text-accent-red font-bold focus:outline-none"
           >
-            <option value="unchanged">💀 UNCHANGED</option>
-            <option value="reality">📍 REALITY</option>
-            <option value="onePercent">🚀 1% BETTER</option>
-            <option value="goalAchieved">🎯 GOAL</option>
-            <option value="dream">🌙 DREAM</option>
+            <option value="unchanged">SIMILAR ROUTINE</option>
+            <option value="reality">CURRENT START</option>
+            <option value="onePercent">SMALL CHANGE</option>
+            <option value="goalAchieved">GOAL-FOCUSED</option>
+            <option value="dream">STRETCH IDEA</option>
           </select>
 
           <span className="text-text-muted font-bold">VS</span>
@@ -52,11 +52,11 @@ export const PathComparison: React.FC<PathComparisonProps> = ({ simulation }) =>
             onChange={e => setScenarioB(e.target.value as ScenarioKey)}
             className="bg-void border border-accent-cyan/40 rounded-xl px-3 py-2 text-accent-cyan font-bold focus:outline-none"
           >
-            <option value="onePercent">🚀 1% BETTER</option>
-            <option value="goalAchieved">🎯 GOAL</option>
-            <option value="dream">🌙 DREAM</option>
-            <option value="reality">📍 REALITY</option>
-            <option value="unchanged">💀 UNCHANGED</option>
+            <option value="onePercent">SMALL CHANGE</option>
+            <option value="goalAchieved">GOAL-FOCUSED</option>
+            <option value="dream">STRETCH IDEA</option>
+            <option value="reality">CURRENT START</option>
+            <option value="unchanged">SIMILAR ROUTINE</option>
           </select>
         </div>
       </div>
@@ -66,7 +66,7 @@ export const PathComparison: React.FC<PathComparisonProps> = ({ simulation }) =>
         <table className="w-full text-left font-mono text-xs border-collapse">
           <thead>
             <tr className="border-b border-border-subtle text-text-muted">
-              <th className="py-3 px-4 uppercase">METRIC / HORIZON</th>
+              <th className="py-3 px-4 uppercase">A QUESTION TO CONSIDER</th>
               <th className="py-3 px-4 uppercase text-accent-red font-bold" style={{ color: pathA.hex }}>
                 {pathA.title}
               </th>
@@ -77,38 +77,34 @@ export const PathComparison: React.FC<PathComparisonProps> = ({ simulation }) =>
           </thead>
           <tbody className="divide-y divide-border-subtle">
             <tr>
-              <td className="py-3 px-4 text-text-secondary font-semibold">Future Scenario Score</td>
-              <td className="py-3 px-4 font-bold text-accent-red" style={{ color: pathA.hex }}>
-                {pathA.score} / 100
-              </td>
-              <td className="py-3 px-4 font-bold text-accent-cyan" style={{ color: pathB.hex }}>
-                {pathB.score} / 100
-              </td>
+              <td className="py-3 px-4 text-text-secondary font-semibold">What is this route about?</td>
+              <td className="py-3 px-4 text-text-muted">{pathA.subtitle}</td>
+              <td className="py-3 px-4 text-text-muted">{pathB.subtitle}</td>
             </tr>
             <tr>
-              <td className="py-3 px-4 text-text-secondary font-semibold">2031 Career Outcome</td>
+              <td className="py-3 px-4 text-text-secondary font-semibold">A prompt for later</td>
               <td className="py-3 px-4 text-text-muted">{yearA2031.career}</td>
-              <td className="py-3 px-4 text-text-primary font-semibold">{yearB2031.career}</td>
+              <td className="py-3 px-4 text-text-muted">{yearB2031.career}</td>
             </tr>
             <tr>
-              <td className="py-3 px-4 text-text-secondary font-semibold">Income Scenario (2031)</td>
-              <td className="py-3 px-4 text-accent-amber">{yearA2031.incomeScenario || 'Baseline'}</td>
-              <td className="py-3 px-4 text-accent-gold font-bold">{yearB2031.incomeScenario || 'High Growth'}</td>
+              <td className="py-3 px-4 text-text-secondary font-semibold">Income outlook</td>
+              <td className="py-3 px-4 text-text-muted">Not estimated</td>
+              <td className="py-3 px-4 text-text-muted">Not estimated</td>
             </tr>
             <tr>
-              <td className="py-3 px-4 text-text-secondary font-semibold">Habit Consistency</td>
-              <td className="py-3 px-4 text-accent-red">Same or worse drag</td>
-              <td className="py-3 px-4 text-accent-green">Steadily compounding</td>
+              <td className="py-3 px-4 text-text-secondary font-semibold">One action to explore</td>
+              <td className="py-3 px-4 text-text-muted">{pathA.criticalMilestones?.[0] || pathA.subtitle}</td>
+              <td className="py-3 px-4 text-text-muted">{pathB.criticalMilestones?.[0] || pathB.subtitle}</td>
             </tr>
             <tr>
-              <td className="py-3 px-4 text-text-secondary font-semibold">Learning Velocity</td>
-              <td className="py-3 px-4 text-text-muted">{simulation.userProfile.learningHours}h / day static</td>
-              <td className="py-3 px-4 text-accent-cyan font-semibold">3h+ daily deep work</td>
+              <td className="py-3 px-4 text-text-secondary font-semibold">Current starting estimate</td>
+              <td className="py-3 px-4 text-text-muted">{simulation.userProfile.socialMediaHours}h screen time · {simulation.userProfile.learningHours}h learning</td>
+              <td className="py-3 px-4 text-text-muted">{simulation.userProfile.socialMediaHours}h screen time · {simulation.userProfile.learningHours}h learning</td>
             </tr>
             <tr>
-              <td className="py-3 px-4 text-text-secondary font-semibold">Predicted Life Regret</td>
-              <td className="py-3 px-4 text-accent-red font-bold">HIGH (85% risk)</td>
-              <td className="py-3 px-4 text-accent-green font-bold">LOW (10% risk)</td>
+              <td className="py-3 px-4 text-text-secondary font-semibold">Personal outcome</td>
+              <td className="py-3 px-4 text-text-muted">Only you can decide what feels meaningful.</td>
+              <td className="py-3 px-4 text-text-muted">Only you can decide what feels meaningful.</td>
             </tr>
           </tbody>
         </table>
@@ -118,15 +114,15 @@ export const PathComparison: React.FC<PathComparisonProps> = ({ simulation }) =>
       <div className="p-4 rounded-xl bg-void border border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
         <div>
           <div className="font-mono text-xs text-accent-gold font-bold uppercase flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-accent-gold" /> DIVERGENCE DELTA: {lostHours.toLocaleString()} HOURS OVER 5 YEARS
+            <Sparkles className="w-4 h-4 text-accent-gold" /> TIME MATH · IF YOU CHOSE TO REDIRECT IT
           </div>
           <p className="text-xs font-body text-text-secondary mt-1">
-            "The difference between these two futures is about <strong>4 hours per day</strong>. That's it."
+            At your current estimate, that adds up to {lostHours.toLocaleString()} hours over five years. It is arithmetic, not a promise about what you could achieve.
           </p>
         </div>
 
         <div className="font-mono text-xs px-4 py-2 rounded-xl bg-accent-blue/20 border border-accent-blue/40 text-accent-cyan font-bold">
-          4 Hours / Day = Alternate Life
+          Time available is not a guaranteed result
         </div>
       </div>
     </GlassCard>

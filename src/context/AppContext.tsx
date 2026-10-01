@@ -59,30 +59,30 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [onboardingProfile, setOnboardingProfile] = useState<Partial<UserProfile>>({
-    name: 'Alex',
+    name: '',
     age: 21,
     country: 'India',
     role: 'IT Student',
     education: 'College',
-    socialMediaHours: 5,
-    sleepHours: 6.5,
-    learningHours: 1.5,
+    socialMediaHours: 3,
+    sleepHours: 7,
+    learningHours: 1,
     exerciseFreq: '1-2x/week',
     focusRating: 5,
-    consistencyRating: 4,
-    goalStatement: 'I want to get a software engineering job paying ₹15L/year by 2027.',
-    targetCareer: 'Software Engineer',
-    targetIncome: '₹15L/year',
+    consistencyRating: 5,
+    goalStatement: '',
+    targetCareer: '',
+    targetIncome: '',
     targetYear: '2027',
-    biggestSkill: 'Full-Stack Development & DSA',
-    digitalHabits: ['Instagram', 'YouTube', 'Doom-scrolling'],
-    mentalPatterns: ['Procrastination', 'Overthinking'],
-    positiveHabits: ['Coding', 'Reading'],
+    biggestSkill: '',
+    digitalHabits: [],
+    mentalPatterns: [],
+    positiveHabits: [],
     customHabits: [],
     negativeSeverity: {},
     startYear: '2026',
     horizonYears: '5 Years',
-    scaredScenario: '📍 Slow drift — never really getting there',
+    scaredScenario: '',
     fiveYearReflection: ''
   });
 
@@ -172,6 +172,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       id: `log_${Date.now()}`
     };
     storageService.addDailyLog(newLog);
+    setSimulation(prev => {
+      const updatedSim = { ...prev, dailyLogs: [...(prev.dailyLogs || []), newLog] };
+      storageService.saveCurrentSimulation(updatedSim);
+      return updatedSim;
+    });
   };
 
   const saveLetterToFutureSelf = (letterData: Omit<LetterToSelf, 'id'>) => {
@@ -181,6 +186,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       id: `letter_${Date.now()}`
     };
     storageService.saveLetterToSelf(newLetter);
+    setSimulation(prev => {
+      const updatedSim = { ...prev, letterToSelf: newLetter };
+      storageService.saveCurrentSimulation(updatedSim);
+      return updatedSim;
+    });
   };
 
   const addWeeklyCheckinEntry = (checkinData: Omit<WeeklyCheckin, 'id'>) => {
@@ -190,17 +200,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       id: `checkin_${Date.now()}`
     };
     storageService.addWeeklyCheckin(newCheckin);
-    
-    // Recalculate trajectory score if needed
-    const latestScore = checkinData.calculatedScore;
     setSimulation(prev => {
-      const updatedSim = {
-        ...prev,
-        currentReality: {
-          ...prev.currentReality,
-          overallScore: latestScore
-        }
-      };
+      const updatedSim = { ...prev, weeklyCheckins: [...(prev.weeklyCheckins || []), newCheckin] };
       storageService.saveCurrentSimulation(updatedSim);
       return updatedSim;
     });

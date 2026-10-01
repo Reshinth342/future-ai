@@ -28,7 +28,6 @@ export const HabitImpactCalculator: React.FC<HabitImpactCalculatorProps> = ({ in
 
   const redirectYearly = Math.round(redirectedHours * 365);
   const redirectFiveYears = redirectYearly * 5;
-  const masteryPercentage = ((redirectFiveYears / 10000) * 100).toFixed(1);
 
   const handleSliderChange = (setter: (val: number) => void, val: number) => {
     soundFx.playClick();
@@ -40,11 +39,12 @@ export const HabitImpactCalculator: React.FC<HabitImpactCalculatorProps> = ({ in
       <div className="flex items-center justify-between border-b border-border-subtle pb-4">
         <div>
           <span className="font-mono text-xs text-accent-amber uppercase tracking-widest flex items-center gap-1.5">
-            <Calculator className="w-3.5 h-3.5" /> HABIT IMPACT CALCULATOR
+            <Calculator className="w-3.5 h-3.5" /> TIME ESTIMATE
           </span>
           <h3 className="font-display text-2xl font-bold text-white mt-1">
-            See Exactly What Your Habits Cost You
+            See what the hours add up to
           </h3>
+          <p className="mt-1 text-xs text-text-muted">Example values to explore; adjust each slider to suit your own estimate.</p>
         </div>
       </div>
 
@@ -52,7 +52,7 @@ export const HabitImpactCalculator: React.FC<HabitImpactCalculatorProps> = ({ in
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-body">
         <div className="p-3.5 rounded-xl bg-void border border-border-subtle">
           <div className="flex justify-between text-xs font-mono mb-1">
-            <span className="text-text-secondary">📱 Social Media</span>
+            <span className="text-text-secondary">📱 Social and entertainment</span>
             <span className="text-accent-red font-bold">{socialHours}h / day</span>
           </div>
           <input
@@ -64,7 +64,7 @@ export const HabitImpactCalculator: React.FC<HabitImpactCalculatorProps> = ({ in
 
         <div className="p-3.5 rounded-xl bg-void border border-border-subtle">
           <div className="flex justify-between text-xs font-mono mb-1">
-            <span className="text-text-secondary">🎮 Gaming / Browsing</span>
+            <span className="text-text-secondary">🎮 Gaming or browsing</span>
             <span className="text-accent-amber font-bold">{gamingHours}h / day</span>
           </div>
           <input
@@ -76,7 +76,7 @@ export const HabitImpactCalculator: React.FC<HabitImpactCalculatorProps> = ({ in
 
         <div className="p-3.5 rounded-xl bg-void border border-border-subtle">
           <div className="flex justify-between text-xs font-mono mb-1">
-            <span className="text-text-secondary">😴 Sleep Deficit Drag</span>
+            <span className="text-text-secondary">😴 Extra sleep you want</span>
             <span className="text-accent-violet font-bold">{sleepDeficitHours}h / day</span>
           </div>
           <input
@@ -92,7 +92,7 @@ export const HabitImpactCalculator: React.FC<HabitImpactCalculatorProps> = ({ in
         <table className="w-full font-mono text-xs text-left border-collapse">
           <thead>
             <tr className="border-b border-border-subtle text-text-muted">
-              <th className="py-2.5 px-3 uppercase">CURRENT HABIT</th>
+              <th className="py-2.5 px-3 uppercase">YOUR ESTIMATE</th>
               <th className="py-2.5 px-3 uppercase">DAILY</th>
               <th className="py-2.5 px-3 uppercase">YEARLY</th>
               <th className="py-2.5 px-3 uppercase">5 YEARS</th>
@@ -100,25 +100,25 @@ export const HabitImpactCalculator: React.FC<HabitImpactCalculatorProps> = ({ in
           </thead>
           <tbody className="divide-y divide-border-subtle">
             <tr>
-              <td className="py-2.5 px-3 text-text-secondary">📱 Social Media</td>
+              <td className="py-2.5 px-3 text-text-secondary">📱 Social and entertainment</td>
               <td className="py-2.5 px-3 text-white font-bold">{socialHours}h</td>
               <td className="py-2.5 px-3 text-accent-red">{socialYearly.toLocaleString()}h</td>
               <td className="py-2.5 px-3 text-accent-red font-bold">{socialFiveYears.toLocaleString()}h</td>
             </tr>
             <tr>
-              <td className="py-2.5 px-3 text-text-secondary">🎮 Gaming / Casual Browsing</td>
+              <td className="py-2.5 px-3 text-text-secondary">🎮 Gaming or browsing</td>
               <td className="py-2.5 px-3 text-white font-bold">{gamingHours}h</td>
               <td className="py-2.5 px-3 text-accent-amber">{gamingYearly.toLocaleString()}h</td>
               <td className="py-2.5 px-3 text-accent-amber font-bold">{gamingFiveYears.toLocaleString()}h</td>
             </tr>
             <tr>
-              <td className="py-2.5 px-3 text-text-secondary">😴 Sleep Deficit Drag</td>
+              <td className="py-2.5 px-3 text-text-secondary">😴 Extra sleep I'd like</td>
               <td className="py-2.5 px-3 text-white font-bold">{sleepDeficitHours}h</td>
               <td className="py-2.5 px-3 text-accent-violet">{sleepYearly.toLocaleString()}h</td>
               <td className="py-2.5 px-3 text-accent-violet font-bold">{sleepFiveYears.toLocaleString()}h</td>
             </tr>
             <tr className="bg-white/5 font-bold">
-              <td className="py-3 px-3 text-accent-red uppercase">TOTAL TIME DRAIN:</td>
+              <td className="py-3 px-3 text-accent-red uppercase">SELECTED HOURS TOTAL*:</td>
               <td className="py-3 px-3 text-white">{totalDailyLost}h</td>
               <td className="py-3 px-3 text-accent-red">{totalYearlyLost.toLocaleString()}h</td>
               <td className="py-3 px-3 text-accent-red text-sm">{totalFiveYearLost.toLocaleString()}h</td>
@@ -131,7 +131,7 @@ export const HabitImpactCalculator: React.FC<HabitImpactCalculatorProps> = ({ in
       <div className="p-5 rounded-2xl bg-gradient-to-r from-accent-blue/15 via-accent-cyan/15 to-accent-violet/15 border border-accent-cyan/30 space-y-3 font-mono">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <span className="text-xs font-bold text-accent-cyan uppercase flex items-center gap-1.5">
-            <Zap className="w-4 h-4 text-accent-cyan" /> IF YOU REDIRECTED JUST:
+            <Zap className="w-4 h-4 text-accent-cyan" /> IF YOU SET ASIDE:
           </span>
           <div className="flex items-center gap-2">
             <input
@@ -147,18 +147,17 @@ export const HabitImpactCalculator: React.FC<HabitImpactCalculatorProps> = ({ in
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           <div className="p-3 rounded-xl bg-void/80 border border-border-subtle">
-            <div className="text-text-muted">Compound Growth per Year:</div>
-            <div className="text-xl font-bold text-accent-cyan mt-1">+{redirectYearly.toLocaleString()} hours / year</div>
+            <div className="text-text-muted">Time over one year:</div>
+            <div className="text-xl font-bold text-accent-cyan mt-1">{redirectYearly.toLocaleString()} hours</div>
           </div>
           <div className="p-3 rounded-xl bg-void/80 border border-border-subtle">
-            <div className="text-text-muted">Compound Growth over 5 Years:</div>
-            <div className="text-xl font-bold text-accent-gold mt-1">+{redirectFiveYears.toLocaleString()} hours / 5 years</div>
+            <div className="text-text-muted">Time over five years:</div>
+            <div className="text-xl font-bold text-accent-gold mt-1">{redirectFiveYears.toLocaleString()} hours</div>
           </div>
         </div>
 
         <p className="text-xs font-body text-text-secondary leading-relaxed pt-1">
-          💡 World-class mastery in almost any technical skill requires ~10,000 hours of deliberate practice. 
-          By redirecting {redirectedHours}h/day, you would complete <strong className="text-accent-gold">{masteryPercentage}%</strong> of the way to world-class mastery in 5 years!
+          *These are simple time totals based on the sliders, not a measure of lost time or a promise about what practice would achieve. The categories can overlap.
         </p>
       </div>
     </GlassCard>

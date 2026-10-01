@@ -22,12 +22,10 @@ export const JournalPage: React.FC = () => {
       date: new Date().toISOString().split('T')[0],
       dayNumber: logs.length + 1,
       goalProgress: win,
-      wastedTime: drag || 'None',
+      wastedTime: drag,
       energy: energyLevel,
       shiftAction: deepWorkHours > socialMediaHours ? 'Focus momentum' : 'Screen time reduction',
-      guardianInsight: deepWorkHours > socialMediaHours 
-        ? "🟢 Positive ratio! Deep work exceeded distraction time. Compounding velocity active."
-        : "🔴 Friction alert! Social media exceeded deep work time. Digital leakage detected."
+      guardianInsight: 'Saved in this browser. Review this note whenever it is useful.'
     });
 
     setWin('');
@@ -40,13 +38,13 @@ export const JournalPage: React.FC = () => {
       <div className="bento-card p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
           <div className="text-xs text-accent-amber uppercase tracking-widest flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-accent-amber" /> BENTO DASHBOARD · DAILY MICRO-JOURNAL
+            <BookOpen className="w-4 h-4 text-accent-amber" /> PRIVATE NOTES
           </div>
           <h1 className="font-display text-3xl sm:text-4xl font-bold text-white mt-1">
-            LOG YOUR DAY & RECALIBRATE
+            A quick note about today
           </h1>
           <p className="text-xs text-text-secondary mt-1">
-            Track daily deep work vs digital drag to protect your 5-year trajectory.
+            Keep a private note about what you tried, what got in the way, and what you want to adjust.
           </p>
         </div>
         <div className="flex items-center gap-3 bg-void border border-border-subtle p-3 rounded-2xl">
@@ -69,8 +67,9 @@ export const JournalPage: React.FC = () => {
 
           <form onSubmit={handleAddLog} className="space-y-4 text-xs">
             <div>
-              <label className="block text-text-muted uppercase mb-1">Deep Work Hours: {deepWorkHours}h</label>
+              <label htmlFor="journal-focus-hours" className="block text-text-muted uppercase mb-1">Focused time: {deepWorkHours}h</label>
               <input
+                id="journal-focus-hours"
                 type="range" min="0" max="10" step="0.5"
                 value={deepWorkHours}
                 onChange={e => setDeepWorkHours(parseFloat(e.target.value))}
@@ -79,8 +78,9 @@ export const JournalPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-text-muted uppercase mb-1">Social Media Hours: {socialMediaHours}h</label>
+              <label htmlFor="journal-screen-hours" className="block text-text-muted uppercase mb-1">Social and entertainment time: {socialMediaHours}h</label>
               <input
+                id="journal-screen-hours"
                 type="range" min="0" max="12" step="0.5"
                 value={socialMediaHours}
                 onChange={e => setSocialMediaHours(parseFloat(e.target.value))}
@@ -89,8 +89,9 @@ export const JournalPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-text-muted uppercase mb-1">Energy Level (1–10): {energyLevel}</label>
+              <label htmlFor="journal-energy" className="block text-text-muted uppercase mb-1">Energy level (1–10): {energyLevel}</label>
               <input
+                id="journal-energy"
                 type="range" min="1" max="10"
                 value={energyLevel}
                 onChange={e => setEnergyLevel(parseInt(e.target.value))}
@@ -99,8 +100,9 @@ export const JournalPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-text-muted uppercase mb-1">Biggest Win Today</label>
+              <label htmlFor="journal-win" className="block text-text-muted uppercase mb-1">What I did today</label>
               <input
+                id="journal-win"
                 type="text"
                 placeholder="e.g. Shipped authentication component..."
                 value={win}
@@ -110,8 +112,9 @@ export const JournalPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-text-muted uppercase mb-1">Biggest Drag / Friction</label>
+              <label htmlFor="journal-friction" className="block text-text-muted uppercase mb-1">What got in the way? (optional)</label>
               <input
+                id="journal-friction"
                 type="text"
                 placeholder="e.g. Spent 2h scrolling Instagram..."
                 value={drag}
@@ -133,18 +136,18 @@ export const JournalPage: React.FC = () => {
         {/* Bento Tile 2: Past Journal Entries Feed (2 Cols) */}
         <div className="bento-card lg:col-span-2 p-6 space-y-4">
           <div className="text-xs text-text-muted uppercase tracking-widest flex items-center gap-1.5 border-b border-border-subtle pb-3">
-            <BookOpen className="w-4 h-4 text-accent-gold" /> PAST LOGS & AI GUARDIAN RECAPS
+              <BookOpen className="w-4 h-4 text-accent-gold" /> YOUR PAST NOTES
           </div>
 
           <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
             {logs.map(log => (
               <div key={log.id} className="p-4 rounded-2xl bg-void border border-border-subtle space-y-2 text-xs">
                 <div className="flex items-center justify-between text-text-muted">
-                  <span className="font-bold text-white">{log.date} (Day {log.dayNumber})</span>
+                  <span className="font-bold text-white">{log.date}</span>
                   <span>Energy: {log.energy}/10</span>
                 </div>
 
-                <div className="text-text-secondary">🏆 Goal Progress: {log.goalProgress}</div>
+                <div className="text-text-secondary">What I did: {log.goalProgress}</div>
                 {log.wastedTime && <div className="text-text-muted">⚠️ Friction: {log.wastedTime}</div>}
 
                 {log.guardianInsight && (

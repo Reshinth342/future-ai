@@ -23,7 +23,7 @@ export const ShareableCard: React.FC<ShareableCardProps> = ({ simulation }) => {
       soundFx.playClick();
       setIsExporting(true);
       const canvas = await html2canvas(cardRef.current, {
-        backgroundColor: '#030305',
+        backgroundColor: '#fffdf8',
         scale: 2,
         useCORS: true
       });
@@ -47,9 +47,8 @@ export const ShareableCard: React.FC<ShareableCardProps> = ({ simulation }) => {
   };
 
   const shareToX = () => {
-    const text = encodeURIComponent(`I just simulated my 2031 future on AI Time Machine 3.0. 
-The gap between my 💀 Unchanged path and 🚀 1% Better timeline is 4 hours/day.
-Try it yourself:`);
+    const text = encodeURIComponent(`I used a personal planning studio to think through a couple of what-if scenarios. They are prompts, not predictions.
+  Try it yourself:`);
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`, '_blank');
   };
 
@@ -62,48 +61,44 @@ Try it yourself:`);
       {/* CARD ELEMENT TO EXPORT */}
       <div
         ref={cardRef}
-        className="p-8 rounded-3xl bg-gradient-to-b from-[#0a0a0f] to-[#030305] border border-border-subtle shadow-2xl space-y-6 max-w-xl mx-auto font-mono relative overflow-hidden"
+        className="p-8 rounded-xl bg-[#fffdf8] border border-border-subtle shadow-xl space-y-6 max-w-xl mx-auto font-body relative overflow-hidden"
       >
-        {/* Glow ambient accent */}
-        <div className="absolute top-0 right-0 w-48 h-48 bg-accent-violet/10 rounded-full filter blur-3xl pointer-events-none" />
-
         {/* Card Header */}
         <div className="flex items-center justify-between border-b border-border-subtle pb-4">
           <div className="flex items-center gap-2">
             <Zap className="w-4 h-4 text-accent-cyan" />
-            <span className="text-xs font-bold text-white tracking-widest uppercase">AI TIME MACHINE · 2031 SIMULATION</span>
+            <span className="text-xs font-bold text-text-primary uppercase">FUTURE / IN PROGRESS · WHAT-IF</span>
           </div>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-accent-blue/20 text-accent-blue font-bold">v3.0 VERIFIED</span>
+          <span className="text-[10px] px-2 py-0.5 rounded bg-accent-cyan/10 text-accent-cyan font-bold">NOT A FORECAST</span>
         </div>
 
         {/* User Identity */}
         <div>
           <h3 className="font-display text-2xl font-bold text-white">{profile.name}, {profile.age}</h3>
           <div className="text-xs text-text-muted mt-0.5">{profile.role} · {profile.country}</div>
-          <div className="text-xs text-accent-gold mt-1 font-semibold">Goal: "{profile.goalStatement}"</div>
+          <div className="text-xs text-accent-gold mt-1 font-semibold">A goal I am thinking about: "{profile.goalStatement}"</div>
         </div>
 
         {/* 2 Path Comparison */}
         <div className="grid grid-cols-2 gap-4">
           <div className="p-4 rounded-2xl bg-void border border-accent-red/30 space-y-2">
-            <div className="text-[10px] text-accent-red font-bold uppercase">💀 UNCHANGED PATH</div>
-            <div className="text-2xl font-bold text-accent-red">{unchanged.score} <span className="text-xs text-text-muted">/100</span></div>
-            <div className="text-[11px] text-text-secondary">{unchanged.years['2031'].incomeScenario || 'Plateau'}</div>
+            <div className="text-[10px] text-accent-red font-bold uppercase">A SIMILAR ROUTINE</div>
+            <div className="text-sm font-semibold text-text-primary">{unchanged.subtitle}</div>
+            <div className="text-[11px] text-text-secondary">{unchanged.criticalMilestones?.[0]}</div>
           </div>
 
           <div className="p-4 rounded-2xl bg-void border border-accent-cyan/30 space-y-2">
-            <div className="text-[10px] text-accent-cyan font-bold uppercase">🚀 1% BETTER PATH</div>
-            <div className="text-2xl font-bold text-accent-cyan">{onePercent.score} <span className="text-xs text-text-muted">/100</span></div>
-            <div className="text-[11px] text-text-secondary">{onePercent.years['2031'].incomeScenario || '₹15–22L scenario'}</div>
+            <div className="text-[10px] text-accent-cyan font-bold uppercase">A SMALL STEADY CHANGE</div>
+            <div className="text-sm font-semibold text-text-primary">{onePercent.subtitle}</div>
+            <div className="text-[11px] text-text-secondary">{onePercent.criticalMilestones?.[0]}</div>
           </div>
         </div>
 
         {/* Quote Line */}
         <div className="text-center pt-2 border-t border-border-subtle space-y-1">
-          <p className="text-xs text-text-primary italic font-body">
-            "The gap between these futures is 4 hours per day."
+          <p className="text-xs text-text-primary font-body">
+            These are reflection prompts based on my own entries, not predictions or advice.
           </p>
-          <div className="text-[11px] text-accent-cyan font-bold">"Your future isn't fixed."</div>
         </div>
       </div>
 
@@ -122,7 +117,7 @@ Try it yourself:`);
           className="px-4 py-2.5 rounded-xl bg-surface border border-border-subtle text-text-secondary hover:text-white flex items-center gap-1.5 transition-colors"
         >
           {copied ? <Check className="w-4 h-4 text-accent-green" /> : <Copy className="w-4 h-4" />}
-          {copied ? 'Link Copied!' : 'Copy Link'}
+          {copied ? 'Link Copied!' : 'Copy app link'}
         </button>
 
         <button

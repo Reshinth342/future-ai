@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { ScoreGauge } from '../ui/ScoreGauge';
 import { LayoutDashboard, Users, CalendarCheck, Sparkles, ArrowRight } from 'lucide-react';
 import { soundFx } from '../../services/audioService';
 
@@ -22,7 +21,7 @@ export const DashboardPage: React.FC = () => {
   // Partner form state
   const [partnerName, setPartnerName] = useState<string>(partner?.name || '');
   const [partnerEmail, setPartnerEmail] = useState<string>(partner?.email || '');
-  const [partnerStake, setPartnerStake] = useState<string>(partner?.commitment || '₹1,000 stake');
+  const [partnerStake, setPartnerStake] = useState<string>(partner?.commitment || '');
 
   const handleSaveCheckin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,9 +34,9 @@ export const DashboardPage: React.FC = () => {
       deepWorkHours,
       socialMediaHours,
       wins: weeklyWin,
-      setbacks: biggestFriction || 'None',
-      energy: 8,
-      calculatedScore: Math.min(100, Math.round(deepWorkHours * 15))
+      setbacks: biggestFriction || 'No note added',
+      energy: 5,
+      calculatedScore: Math.min(10, Math.round(deepWorkHours))
     });
 
     setWeeklyWin('');
@@ -65,21 +64,25 @@ export const DashboardPage: React.FC = () => {
       <div className="bento-card p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
           <div className="text-xs text-accent-cyan uppercase tracking-widest flex items-center gap-2">
-            <LayoutDashboard className="w-4 h-4 text-accent-cyan" /> COMMAND DASHBOARD OVERVIEW
+            <LayoutDashboard className="w-4 h-4 text-accent-cyan" /> YOUR PERSONAL WORKSPACE
           </div>
           <h1 className="font-display text-3xl sm:text-5xl font-bold text-white mt-1">
-            WELCOME BACK, {profile.name.toUpperCase()}
+            YOUR NOTES, {profile.name.toUpperCase()}
           </h1>
           <p className="text-xs text-text-secondary mt-1">
-            Goal: <strong className="text-accent-gold">{profile.goalStatement}</strong>
+            What you are working toward: <strong className="text-accent-gold">{profile.goalStatement}</strong>
           </p>
+          <p className="text-xs text-text-muted mt-2">Saved in this browser. This page does not send reminders or contact anyone.</p>
         </div>
 
-        <div className="flex items-center gap-4">
-          <ScoreGauge score={simulation.futureScore.overall} size="md" color="var(--accent-cyan)" />
-          <div className="text-xs">
-            <div className="text-text-muted">TRAJECTORY SCORE</div>
-            <div className="font-bold text-white text-lg">{simulation.futureScore.overall} / 100</div>
+        <div className="flex flex-wrap gap-4 text-sm">
+          <div className="rounded-xl border border-border-subtle bg-surface px-4 py-3">
+            <div className="text-xs text-text-muted">FOCUS · YOUR RATING</div>
+            <strong>{profile.focusRating} / 10</strong>
+          </div>
+          <div className="rounded-xl border border-border-subtle bg-surface px-4 py-3">
+            <div className="text-xs text-text-muted">LEARNING / BUILDING</div>
+            <strong>{profile.learningHours}h / day</strong>
           </div>
         </div>
       </div>
@@ -97,7 +100,7 @@ export const DashboardPage: React.FC = () => {
           </div>
 
           <p className="text-xs text-text-secondary">
-            Recalibrate your timeline consistency every 7 days.
+            Add a short weekly note about what you tried and how it went.
           </p>
 
           <button
@@ -127,7 +130,7 @@ export const DashboardPage: React.FC = () => {
             </div>
           ) : (
             <p className="text-xs text-text-secondary">
-              Put financial or social skin-in-the-game with an accountability partner.
+              Ask someone you trust to check in on a commitment you choose. Nothing is sent from this page.
             </p>
           )}
 
@@ -271,7 +274,7 @@ export const DashboardPage: React.FC = () => {
                 <label className="block text-text-muted uppercase mb-1">Stake / Commitment Amount</label>
                 <input
                   type="text"
-                  placeholder="e.g. ₹1,000 if 30-day shift missed"
+                  placeholder="e.g. A weekly check-in message"
                   value={partnerStake}
                   onChange={e => setPartnerStake(e.target.value)}
                   className="w-full bg-void border border-border-subtle rounded-xl p-3 text-white focus:outline-none focus:border-accent-gold"

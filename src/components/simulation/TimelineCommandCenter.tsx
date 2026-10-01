@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import type { ScenarioKey, YearKey } from '../../types/simulation';
-import { ScoreGauge } from '../ui/ScoreGauge';
 import { YearDetailPanel } from './YearDetailPanel';
 import { PathComparison } from './PathComparison';
 import { HabitImpactCalculator } from './HabitImpactCalculator';
@@ -21,11 +20,11 @@ export const TimelineCommandCenter: React.FC = () => {
   const activeYearSnapshot = activePath.years[activeYear] || activePath.years['2031'];
 
   const scenarioTabs: { key: ScenarioKey; label: string; icon: string; color: string; hex: string }[] = [
-    { key: 'unchanged', label: '💀 Unchanged', icon: '💀', color: 'var(--accent-red)', hex: '#ef4444' },
-    { key: 'reality', label: '📍 Reality Baseline', icon: '📍', color: 'var(--accent-amber)', hex: '#f59e0b' },
-    { key: 'onePercent', label: '🚀 1% Better', icon: '🚀', color: 'var(--accent-cyan)', hex: '#06b6d4' },
-    { key: 'goalAchieved', label: '🎯 Goal Achieved', icon: '🎯', color: 'var(--accent-gold)', hex: '#eab308' },
-    { key: 'dream', label: '🌙 Dream Scenario', icon: '🌙', color: 'var(--accent-violet)', hex: '#8b5cf6' }
+    { key: 'unchanged', label: 'Similar routine', icon: '↔', color: 'var(--accent-red)', hex: '#b8424c' },
+    { key: 'reality', label: 'Current starting point', icon: '•', color: 'var(--accent-amber)', hex: '#a65f16' },
+    { key: 'onePercent', label: 'Small steady change', icon: '↗', color: 'var(--accent-cyan)', hex: '#147e78' },
+    { key: 'goalAchieved', label: 'Goal-focused route', icon: '◎', color: 'var(--accent-gold)', hex: '#99700e' },
+    { key: 'dream', label: 'Stretch idea', icon: '✳', color: 'var(--accent-violet)', hex: '#7654a6' }
   ];
 
   return (
@@ -35,17 +34,17 @@ export const TimelineCommandCenter: React.FC = () => {
         <div>
           <div className="font-mono text-xs text-text-muted uppercase tracking-widest flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-accent-green animate-pulse" />
-            BENTO DASHBOARD · TIMELINE COMMAND CENTER
+            PERSONAL PLANNING · YOUR SCENARIOS
           </div>
           <h1 className="font-display text-3xl sm:text-5xl font-bold text-white mt-1">
-            YOUR FUTURE, {profile.name.toUpperCase()}
+            A FEW ROUTES TO CONSIDER, {profile.name.toUpperCase()}
           </h1>
           <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-text-secondary mt-2">
-            <span>Age Now: <strong className="text-white">{profile.age}</strong></span>
+            <span>Age: <strong className="text-white">{profile.age}</strong></span>
             <span>·</span>
-            <span>Horizon: <strong className="text-white">2031</strong></span>
+            <span>Review horizon: <strong className="text-white">2031</strong></span>
             <span>·</span>
-            <span>Target Role: <strong className="text-accent-cyan">{profile.role}</strong></span>
+            <span>Current role: <strong className="text-accent-cyan">{profile.role}</strong></span>
           </div>
         </div>
 
@@ -55,7 +54,7 @@ export const TimelineCommandCenter: React.FC = () => {
             onClick={() => setShowRoast(true)}
             className="px-4 py-2.5 rounded-2xl bg-accent-red/20 border border-accent-red/40 text-accent-red font-bold flex items-center gap-1.5 hover:bg-accent-red/30 transition-all shadow-glow-red"
           >
-            <Flame className="w-4 h-4" /> ROAST HABITS 🔥
+            <Flame className="w-4 h-4" /> REVIEW MY ROUTINE
           </button>
 
           <button
@@ -81,7 +80,7 @@ export const TimelineCommandCenter: React.FC = () => {
         <div className="bento-card col-span-1 md:col-span-2 lg:col-span-4 p-6 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-subtle pb-4">
             <div className="font-mono text-xs text-text-muted uppercase tracking-wider flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-accent-cyan" /> 01 / SCENARIO PATHS & YEAR NODES
+              <Sparkles className="w-4 h-4 text-accent-cyan" /> 01 / WHAT-IF SCENARIOS
             </div>
             <span className="font-mono text-xs font-bold" style={{ color: activePath.hex }}>
               ACTIVE TIMELINE: {activePath.title}
@@ -166,54 +165,33 @@ export const TimelineCommandCenter: React.FC = () => {
           />
         </div>
 
-        {/* BENTO TILE 3: FUTURE POTENTIAL SCORE & GAUGES (Spans 2 Cols) */}
+        {/* BENTO TILE 3: SELF-REPORTED STARTING SNAPSHOT */}
         <div className="bento-card col-span-1 md:col-span-2 lg:col-span-2 p-6 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-subtle pb-4">
             <div>
               <span className="font-mono text-xs text-accent-violet uppercase tracking-widest flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-accent-violet" /> 03 / METRIC INDICATORS
+                <Sparkles className="w-3.5 h-3.5 text-accent-violet" /> 03 / YOUR INPUTS
               </span>
               <h3 className="font-display text-2xl font-bold text-white mt-1">
-                FUTURE POTENTIAL SCORE
+                Starting snapshot
               </h3>
             </div>
-            <ScoreGauge score={simulation.futureScore.overall} size="md" color="var(--accent-violet)" />
           </div>
 
-          <div className="space-y-3 font-mono text-xs">
-            <div>
-              <div className="flex justify-between mb-1">
-                <span className="text-text-secondary">Focus Quality</span>
-                <span className="text-accent-cyan font-bold">{simulation.futureScore.focusQuality} / 100</span>
-              </div>
-              <div className="w-full h-2 bg-void rounded-full overflow-hidden border border-border-subtle">
-                <div className="h-full bg-accent-cyan" style={{ width: `${simulation.futureScore.focusQuality}%` }} />
-              </div>
+          <div className="space-y-4 text-sm">
+            <div className="flex items-center justify-between border-b border-border-subtle pb-3">
+              <span className="text-text-secondary">Focus, by your estimate</span>
+              <strong>{profile.focusRating} / 10</strong>
             </div>
-
-            <div>
-              <div className="flex justify-between mb-1">
-                <span className="text-text-secondary">Skill Velocity</span>
-                <span className="text-accent-gold font-bold">{simulation.futureScore.skillVelocity} / 100</span>
-              </div>
-              <div className="w-full h-2 bg-void rounded-full overflow-hidden border border-border-subtle">
-                <div className="h-full bg-accent-gold" style={{ width: `${simulation.futureScore.skillVelocity}%` }} />
-              </div>
+            <div className="flex items-center justify-between border-b border-border-subtle pb-3">
+              <span className="text-text-secondary">Learning or building</span>
+              <strong>{profile.learningHours}h / day</strong>
             </div>
-
-            <div>
-              <div className="flex justify-between mb-1">
-                <span className="text-text-secondary">Habit Consistency</span>
-                <span className="text-accent-red font-bold">{simulation.futureScore.consistency} / 100</span>
-              </div>
-              <div className="w-full h-2 bg-void rounded-full overflow-hidden border border-border-subtle">
-                <div className="h-full bg-accent-red" style={{ width: `${simulation.futureScore.consistency}%` }} />
-              </div>
+            <div className="flex items-center justify-between pb-1">
+              <span className="text-text-secondary">Routine consistency, by your estimate</span>
+              <strong>{profile.consistencyRating} / 10</strong>
             </div>
-
-            <div className="p-3 rounded-xl bg-void border border-border-subtle text-accent-amber font-body">
-              <strong>Your primary drag:</strong> {simulation.futureScore.biggestDrag}
-            </div>
+            <p className="text-xs leading-relaxed text-text-muted">These are your self-ratings, not a validated assessment or a measure of your potential.</p>
           </div>
         </div>
 
@@ -237,7 +215,7 @@ export const TimelineCommandCenter: React.FC = () => {
           <div className="flex items-center justify-between border-b border-border-subtle pb-4 mb-4">
             <div>
               <span className="font-mono text-xs text-accent-gold uppercase tracking-widest flex items-center gap-1.5">
-                <Share2 className="w-3.5 h-3.5 text-accent-gold" /> 07 / VIRAL CARD EXPORTER
+                <Share2 className="w-3.5 h-3.5 text-accent-gold" /> 07 / SHARE A PLANNING NOTE
               </span>
               <h3 className="font-display text-2xl font-bold text-white mt-1">
                 Export Your Simulation Card

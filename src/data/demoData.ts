@@ -1,38 +1,34 @@
 import type { SimulationResult, UserProfile } from '../types/simulation';
 
 export const defaultProfile: UserProfile = {
-  name: 'Alex',
+  name: 'Sample profile',
   age: 21,
   country: 'India',
   role: 'IT Student',
   education: 'College',
-  socialMediaHours: 5,
-  sleepHours: 6.5,
-  learningHours: 1.5,
+  socialMediaHours: 3,
+  sleepHours: 7,
+  learningHours: 1,
   exerciseFreq: '1-2x/week',
-  monthlyIncome: '₹0 (Student)',
+  monthlyIncome: '',
   focusRating: 5,
-  consistencyRating: 4,
-  goalStatement: 'I want to get a software engineering job paying ₹15L/year by 2028.',
-  targetCareer: 'Full Stack / Backend Software Engineer',
-  targetIncome: '₹15,000,000 / year (₹15L)',
+  consistencyRating: 5,
+  goalStatement: 'I want to make steady progress on a goal that matters to me.',
+  targetCareer: 'A role that fits my interests',
+  targetIncome: '',
   targetYear: '2028',
-  biggestSkill: 'Data Structures, Algorithms & Cloud Systems',
-  biggestFear: 'Plateauing in a low-paying junior support role with no growth',
-  cityOpportunity: 'Bangalore / Remote Global',
-  digitalHabits: ['Instagram', 'YouTube', 'Doom-scrolling', 'Reddit'],
-  mentalPatterns: ['Procrastination', 'Overthinking', 'Inconsistent sleep', 'Fear of failure'],
-  positiveHabits: ['Coding', 'Reading', 'Building projects'],
-  customHabits: ['Late night tutorial watching'],
-  negativeSeverity: {
-    'Instagram': 8,
-    'Procrastination': 9,
-    'Inconsistent sleep': 7
-  },
+  biggestSkill: 'A skill I would like to practice',
+  biggestFear: '',
+  cityOpportunity: '',
+  digitalHabits: [],
+  mentalPatterns: [],
+  positiveHabits: [],
+  customHabits: [],
+  negativeSeverity: {},
   startYear: '2026',
   horizonYears: '5 Years',
-  scaredScenario: '📍 Slow drift — never really getting there',
-  fiveYearReflection: 'I might end up taking any low-paying entry job out of panic, working long hours while watching others land remote international offers.'
+  scaredScenario: 'Losing sight of a goal I care about',
+  fiveYearReflection: 'I hope I keep learning, adapting, and making choices that work for me.'
 };
 
 export const defaultSimulationResult: SimulationResult = {

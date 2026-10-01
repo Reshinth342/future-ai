@@ -1,99 +1,43 @@
-# ⚡ AI Time Machine 3.0 — Interactive Future Simulation Engine
+# Future / In Progress
 
-> *"Your future isn't fixed. But your current habits are already writing it — one day at a time."*
+A personal planning workspace for looking at your current routines, exploring a few what-if prompts, and choosing a manageable next step.
 
-[![React 19](https://img.shields.io/badge/React-19.2-61dafb.svg?style=flat-square&logo=react)](https://react.dev/)
-[![Vite 8](https://img.shields.io/badge/Vite-8.2-646cff.svg?style=flat-square&logo=vite)](https://vitejs.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178c6.svg?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![TailwindCSS v3](https://img.shields.io/badge/TailwindCSS-v3.4-38bdf8.svg?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
-[![Anthropic Claude](https://img.shields.io/badge/AI-Claude%203.5%20Sonnet-D97706.svg?style=flat-square)](https://www.anthropic.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+This app does **not** predict careers, income, health, relationships, or other personal outcomes. Its built-in scenarios are written reflection prompts based on the details you enter. Any simple indices are heuristics, not validated assessments.
 
-**AI Time Machine 3.0** is an interactive, cinematic web application that transforms a user's current daily habits, screen time, focus ratings, and career goals into **5 parallel interactive future timeline simulations** spanning 2026 to 2031.
+## What You Can Do
 
----
+- Add a personal goal and a few estimates about your routine.
+- Compare five illustrative what-if prompts across a fixed 2026–2031 review window.
+- Turn an idea into an optional, editable 30-day practice plan.
+- Keep weekly notes, a journal, and a letter to revisit later.
+- Export or share a planning card when you choose.
 
-## 🔮 Core Features
+## Privacy Notes
 
-- 🍱 **Bento Grid Dashboard Architecture**: Integrated spatial bento grid layouts across all 6 core views (*Timeline Command Center*, *Future Self AI Chat*, *30-Day Shift*, *Daily Log*, *Letter Vault*, *Main Dashboard*).
-- 🥽 **Apple Vision Pro Spatial Glass (VisionOS)**: Frosted glass depth panels, spatial pill navigation bar, top inner edge reflection borders, and ambient glowing badges.
-- 🌌 **5 Parallel 5-Year Futures**:
-  - 💀 **The Unchanged Timeline**: What happens if current habits and distractions continue without intervention (*High Regret Path*).
-  - 📍 **Current Reality Baseline**: An honest projection of your current lifestyle over 5 years.
-  - 🚀 **The 1% Better Timeline**: What steady 1% weekly compound improvements look like over 5 years (*Recommended Path*).
-  - 🎯 **Goal Achieved Timeline**: Precision trajectory engineered specifically around landing your target career role and salary.
-  - 🌙 **The Dream Scenario**: Outlier path unlocked by taking bold risks, building in public, and achieving peak performance.
-- 💬 **Future Self AI Chat**: Atmospheric 2031 persona chat powered live by Claude (`claude-3-5-sonnet-20241022`) or dynamic local fallback.
-- 🔥 **Habit Roast Generator**: Brutally honest AI analysis exposing digital dependency, time waste, and opportunity cost.
-- 📅 **30-Day Reality Shift Tracker**: Interactive 4-week mission sprint (*Elimination*, *Foundation*, *Momentum*, *Identity*) with progress streak confetti.
-- ✉️ **Letter to Future Self**: Time capsule vault for sealing letters to your future self.
-- 📊 **Shareable Viral Card**: Downloadable custom graphics for LinkedIn & Twitter sharing.
+- Profile details, plans, and notes are stored in your browser's local storage; they are not synced between devices.
+- The optional Anthropic API key is also stored in local storage and sent directly from your browser when you request an AI response.
+- Do not enter sensitive information or use a private API key on a public/shared device. A public deployment should use a server-side API proxy.
+- Letters do not send automatically. Visit the app again to read the note on your chosen date.
 
----
+## Run Locally
 
-## 🛠️ Technology Stack
-
-- **Frontend**: React 19 + TypeScript + Vite 8
-- **Styling**: Tailwind CSS v3 + Custom Spatial Glass CSS tokens
-- **Icons**: Lucide React
-- **Audio Engine**: Web Audio API Sound Synthesizer (Ambient clicks & success chimes)
-- **AI Engine**: Anthropic Claude API (`claude-3-5-sonnet-20241022`) + Local fallback generator
-- **State & Storage**: React Context API + LocalStorage Manager
-- **Exporting**: `html2canvas` & `canvas-confetti`
-
----
-
-## 🚀 Quick Start (Local Development)
-
-### 1. Clone the repository
 ```bash
 git clone https://github.com/Reshinth342/future-ai.git
 cd future-ai
-```
-
-### 2. Install dependencies
-```bash
 npm install
-```
-
-### 3. Configure Environment Variables (Optional)
-Create a `.env` file in the root directory:
-```env
-VITE_ANTHROPIC_API_KEY=sk-ant-api03-your-actual-api-key
-```
-
-### 4. Launch Development Server
-```bash
 npm run dev
 ```
-Open [http://localhost:5173/](http://localhost:5173/) in your browser.
 
----
+Open `http://localhost:5173/`.
 
-## 📦 Production Build
+The local planning prompts work without an API key. To try optional Anthropic responses, enter your key in the app settings for that browser session.
+
+## Build
 
 ```bash
 npm run build
 ```
-The optimized production bundle will be generated in the `dist/` directory.
 
----
+## Stack
 
-## 🌐 Production Deployment
-
-### Deploying to Vercel (1-Click Setup)
-1. Import `Reshinth342/future-ai` at [vercel.com/new](https://vercel.com/new).
-2. Under **Environment Variables**, add `VITE_ANTHROPIC_API_KEY` (optional).
-3. Click **Deploy**.
-
-### Linking Custom Domain (`future.jo3.org`)
-1. In Vercel Project Settings → **Domains**, add `future.jo3.org`.
-2. In your DNS manager (e.g. DNSExit.com), set a CNAME record:
-   - **Host**: `future`
-   - **Target**: `cname.vercel-dns.com`
-
----
-
-## 📜 License
-
-MIT License © 2026 [Reshinth342](https://github.com/Reshinth342)
+React, TypeScript, Vite, Tailwind CSS, Lucide icons, and browser local storage. Optional Anthropic API requests run from the browser; see the privacy notes before enabling them on a public deployment.
